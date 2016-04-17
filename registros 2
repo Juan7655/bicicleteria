@@ -197,7 +197,10 @@ VALUES
 #Anacleta. 16/04 22:46 Todas las tablas tienen registros. Falta comprobar estos ultimos que agregue después del ultimo comentario
 #Pandolfo. 17/04 09:26 Todos los registros probados y funcionando
 
-
+UPDATE compra
+SET ValorTotal=12500000
+WHERE idCompra=3;
+#Anacleta. 17/04 15:23 El valor de esta compra es de 12 millones 500
 
 
 
