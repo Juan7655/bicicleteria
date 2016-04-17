@@ -266,4 +266,7 @@ ADD CONSTRAINT RefComponente2_fk
 FOREIGN KEY (RefComponente)
 REFERENCES Componente(Referencia);
 
+#Pandolfo. Hay que borrar la columna 'Valor_Total' de la tabla venta, agrego la sentencia correspondiente
+
+ALTER TABLE Venta DROP ValorTotal;
 
