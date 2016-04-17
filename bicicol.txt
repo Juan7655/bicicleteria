@@ -191,22 +191,6 @@ Nombre VARCHAR(150) NOT NULL,
 Telefono VARCHAR(150) NOT NULL,
 PRIMARY KEY (Documento));
 
-CREATE TABLE Cuenta(
-Email VARCHAR(150) NOT NULL,
-Constraseña VARCHAR(150) NOT NULL,
-Usuario VARCHAR(150) NOT NULL,
-Cliente VARCHAR(150),
-Empleado VARCHAR(150),
-PRIMARY KEY(Email));
-
-ALTER TABLE Cuenta
-ADD CONSTRAINT Cliente_FK
-FOREIGN KEY (Cliente)
-REFERENCES Cliente(Documento),
-ADD CONSTRAINT Empleado_FK
-FOREIGN KEY (Empleado)
-REFERENCES Empleado(Documento);
-
 CREATE TABLE Venta(
 IdVenta VARCHAR(150) NOT NULL,
 Cliente VARCHAR(150) NOT NULL,
@@ -282,4 +266,4 @@ ADD CONSTRAINT RefComponente2_fk
 FOREIGN KEY (RefComponente)
 REFERENCES Componente(Referencia);
 
-DROP TABLE Cuenta;
+
