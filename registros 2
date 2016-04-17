@@ -17,7 +17,7 @@ VALUES(1,1,2,'300000'),
 (2,1,3,'300000'),
 (3,2,5,'1000000'),
 (4,2,6,'500000'),
-(5,3,4,'1250000'),
+(5,3,4,'12500000'),
 (6,4,6,'300000'),
 (7,4,2,'500000'),
 (8,5,6,'700000');
@@ -67,12 +67,48 @@ VALUES (1,1,3,6),(2,1,7,6),
 INSERT INTO TipoComponente
 VALUES(1,'Cadena','NA'),
 (2,'Cuadro','NA'),
-(3,'Pedal','NA'),
-(4,'Chasis','NA'),
+(3,'Pedales','NA'),
 (5,'Sillin','NA'),
 (6,'Frenos','NA'),
-(7,'Pedalier','NA'),
 (8,'Piñon','NA'),
 (9,'Plato','NA'),
 (10,'Ruedas','NA'),
-(11,'Cambios','NA');
+(11,'Cambios','NA'),
+(12,'Biela','NA');
+
+INSERT INTO Componente
+VALUES (1,5,'Metal','Negro',15,12,12,'20000',1,'GT Outpost'),
+(2,1,'Aluminio','Blanco',5,7,12,'60000',2,'Para competición de ruta'),
+(3,1,'Magnesio','Negro',13,16,16,'40000',3,'Automático'), 
+(4,1,'Magnesio','Negro',13,16,16,'30000',3,'Puntera y correas'),
+(5,6,'Cuero','Blanco',11,11,9,'25000',5,'Con Abertura'),
+(6,3,'Poliestireno','Negro',11,11,9,'25000',5,'Especial para carrera'),
+(7,6,'Caucho','Negro',20,10,8,'16000',6,'NA'),
+(8,1,'Aluminio','Gris',11,13,12,'20000',8,'XT 11-34 10V'),
+(9,1,'Aluminio','Plata',11,15,12,'22000',8,'Dura-Ace CS9000 11V'),
+(10,2,'Magnesio','Plata',10,8,12,'27000',9,'FC-M430'),
+(11,7,'Aluminio y Caucho','NA',16,22,8,'30000',10,'Mt 15 Rin 27,5'),
+(12,2,'Aluminio y Caucho','NA',12,11,8,'30000',10,'R 500 Ruta'),
+(13,5,'Aluminio','NA',15,11,11,'26000',11,'Cambio mixto'),
+(14,7,'Aluminio','NA',12,12,7,'18000',12,'NA');
+
+INSERT INTO Compra_Componente
+VALUES(1,1,1,6),(2,1,2,2),(3,1,3,2),
+(4,2,4,3),(5,2,5,3),(6,2,6,4),(7,2,7,5),(8,2,8,6),(9,2,9,4),(10,2,10,5),
+(11,4,11,7),(12,4,12,2),(13,4,13,6),(14,4,14,5);
+
+INSERT INTO TipoBicicleta
+VALUES(1,'Carretera','Ideal para largos recorridos'),
+(2,'Cross Country','Ideal para ir rápido por el campo'),
+(3,'Montaña','Ideal para terrenos mixtos'),
+(4,'Fixie','Bicicleta de bajo peso'),
+(5,'Cruiser','Ideal para ritmos tranquilos');
+
+INSERT INTO Bicicleta
+VALUES (1,'400000',1,'M',4,7,1,24),
+(2,'500000',2,'L',4,4,1,24),
+(3,'350000',1,'XS',2,4,2,24),
+(4,'300000',3,'L',4,5,3,24),
+(5,'240000',4,'XL',2,2,5,24),
+(6,'310000',5,'S',2,3,6,24),
+(7,'430000',3,'S',3,3,7,24);
