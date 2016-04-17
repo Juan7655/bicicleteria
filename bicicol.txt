@@ -38,14 +38,14 @@ REFERENCES Proveedor(NitEmpresa);
 CREATE TABLE Marca(
 IdMarca VARCHAR(150) NOT NULL,
 Nombre VARCHAR(150)NOT NULL,
-Descripcion VARCHAR(150)
+Descripcion VARCHAR(150),
 PRIMARY KEY (IdMarca));
 #Anacleta
 
 CREATE TABLE TipoAccesorio(
 IdTipoAcc VARCHAR(150) NOT NULL,
 Nombre VARCHAR(150)NOT NULL,
-Descripcion VARCHAR(150)
+Descripcion VARCHAR(150),
 PRIMARY KEY (IdTipoAcc));
 #Anacleta
 
@@ -215,7 +215,6 @@ IdVenta VARCHAR(150) NOT NULL,
 Cliente VARCHAR(150) NOT NULL,
 Fecha DATE NOT NULL,
 Empleado VARCHAR(150) NOT NULL,
-ValorTotal FLOAT NOT NULL,
 PRIMARY KEY (IdVenta));
 
 ALTER TABLE Venta
@@ -231,7 +230,6 @@ IdVenCom VARCHAR(150) NOT NULL,
 RefComponente VARCHAR(150) NOT NULL,
 IdVenta VARCHAR(150) NOT NULL,
 Cantidad INT NOT NULL,
-Valor FLOAT NOT NULL,
 PRIMARY KEY (IdVenCom));
 
 ALTER TABLE Venta_Componente
@@ -247,7 +245,6 @@ IdVenAcc VARCHAR(150) NOT NULL,
 RefAccesorio VARCHAR (150) NOT NULL,
 IdVenta VARCHAR(150) NOT NULL,
 Cantidad INT NOT NULL,
-Valor FLOAT NOT NULL,
 PRIMARY KEY (IdVenAcc));
 
 ALTER TABLE Venta_Accesorio
@@ -263,7 +260,6 @@ IdVenBi VARCHAR(150) NOT NULL,
 RefBicicleta VARCHAR(150) NOT NULL,
 IdVenta VARCHAR(150) NOT NULL,
 Cantidad INT NOT NULL,
-Valor FLOAT NOT NULL,
 PRIMARY KEY (IdVenBi));
 
 ALTER TABLE Venta_Bicleta
