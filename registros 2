@@ -44,7 +44,7 @@ VALUES(1,'Termo','Recipiente para liquidos'),
 (9,'Luz Bicicleta','NA'),
 (10,'Guardabarros','NA');
 
-INSERT INTO Accesorios
+INSERT INTO Accesorio
 VALUES (1,1,'10000',25,15,'Verde','Plástico',4,'NA',0),
 (2,1,'15000',36,10,'Blanco','Plástico',4,'Termo con gel refrigerante',0),
 (3,2,'30000',25,12,'Verde','Poliestireno',3,'Casco ligero de alto rendimiento',12),
