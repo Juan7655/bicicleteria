@@ -35,14 +35,14 @@ REFERENCES Proveedor(NitEmpresa);
 CREATE TABLE Marca(
 IdMarca VARCHAR(150) NOT NULL,
 Nombre VARCHAR(150)NOT NULL,
-Descripcion VARCHAR(150)
+Descripcion VARCHAR(150),
 PRIMARY KEY (IdMarca));
 #Anacleta
 
 CREATE TABLE TipoAccesorio(
 IdTipoAcc VARCHAR(150) NOT NULL,
 Nombre VARCHAR(150)NOT NULL,
-Descripcion VARCHAR(150)
+Descripcion VARCHAR(150),
 PRIMARY KEY (IdTipoAcc));
 #Anacleta
 
