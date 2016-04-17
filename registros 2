@@ -144,19 +144,31 @@ VALUES (1311459547, 'Laura Bernal', 8253704),
 (1900181171, 'Juan Lopez', 8254648),
 (3455324564, 'Marcela Gutierrez',8965432);
 
-INSERT INTO Ventas
+#Pandolfo edit. 
+#En el 5to registro de esta tabla (venta), estaba mal el número de cliente
+#Ventas-> Venta
+INSERT INTO Venta
 VALUES (1, 1311459547, '2016-04-14', 1072925969),
 (2, 1237701774, '2016-04-25', 1072925969),
 (3, 1031292087, '2016-04-27', 1073938022),
 (4, 1900181171, '2016-04-27', 1073938022),
-(5, 3455324341,'2016-04-14',1073938022);
+(5, 3455324564,'2016-04-14',1073938022);
 
+#Pandolfo edit. Esta tabla no me funcionó hasta que puse todo como está ahora
 INSERT INTO Venta_Componente
-VALUES (1,4,1,2),(2,6,1,2),(3,12,1,3),
-(4,14,2,1),(5,6,2,2),(6,11,2,1),
-(7,1,3,2),(8,12,3,2),
-(9,8,4,1),(10,9,4,2),
-(11,11,5,2),(12,4,5,3);
+VALUES 
+(1,4,1,2),
+(2,6,1,2),
+(3,12,1,3),
+(4,14,2,1),
+(5,6,2,2),
+(6,11,2,1),
+(7,1,3,2),
+(8,12,3,2),
+(9,8,4,1),
+(10,9,4,2),
+(11,11,5,2),
+(12,4,5,3);
 
 INSERT INTO Venta_Accesorio
 VALUES (1,1,1,2),(2,4,1,2),(3,7,1,3),
@@ -165,13 +177,15 @@ VALUES (1,1,1,2),(2,4,1,2),(3,7,1,3),
 (10,2,4,2),(11,5,4,2),(12,7,4,3),
 (13,4,5,2),(14,8,5,1),(15,3,5,2);
 
-INSERT INTO Venta_Bicicleta
+#Pandolfo edit. (Venta_Bicicleta -> Venta_Bicleta)
+INSERT INTO Venta_Bicleta
 VALUES(1,1,1,1),
 (2,2,2,1),(3,3,3,1),(4,4,4,1),
 (5,7,5,1);
-
+#Pandolfo edit.
+#(1,refcom,refbi,cant) quito esto 
 INSERT INTO Bicicleta_Componente
-VALUES (1,refcom,refbi,cant)
+VALUES 
 (1,1,1,1),(2,2,1,1),(3,7,1,4),(4,8,1,2),(5,10,1,1),(6,13,1,1),(7,11,1,2),
 (8,1,2,1),(9,2,2,1),(10,7,2,4),(11,9,2,2),(12,10,2,1),(13,13,2,1),(14,11,2,2),
 (15,1,3,1),(16,2,3,1),(17,7,3,4),(18,9,3,2),(19,10,3,1),(20,13,3,1),(21,12,3,2),
@@ -181,7 +195,7 @@ VALUES (1,refcom,refbi,cant)
 (43,1,7,1),(44,2,7,1),(45,7,7,4),(46,8,7,2),(47,10,7,1),(48,13,7,1),(49,11,7,2);
 
 #Anacleta. 16/04 22:46 Todas las tablas tienen registros. Falta comprobar estos ultimos que agregue después del ultimo comentario
-
+#Pandolfo. 17/04 09:26 Todos los registros probados y funcionando
 
 
 
