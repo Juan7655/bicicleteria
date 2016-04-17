@@ -203,6 +203,19 @@ WHERE idCompra=3;
 #Anacleta. 17/04 15:23 El valor de esta compra es de 12 millones 500
 
 
+UPDATE venta
+SET Fecha='2016-01-24'
+WHERE idventa=1;
+UPDATE venta
+SET Fecha='2015-09-27'
+WHERE idventa=2;
+UPDATE venta
+SET Fecha='2015-11-21'
+WHERE idventa=3;
+Update venta
+SET Fecha='2015-08-11'
+WHERE idventa=4;
+
 
 
 
