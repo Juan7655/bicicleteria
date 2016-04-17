@@ -207,7 +207,7 @@ UPDATE venta
 SET Fecha='2016-01-24'
 WHERE idventa=1;
 UPDATE venta
-SET Fecha='2015-09-27'
+SET Fecha='2015-04-27'
 WHERE idventa=2;
 UPDATE venta
 SET Fecha='2015-11-21'
