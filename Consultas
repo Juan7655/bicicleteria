@@ -45,6 +45,24 @@ FROM cliente C INNER JOIN venta V ON C.Documento = V.Cliente Group By C.Document
 #Juan7655 Hasta el momento no presenta inconsistencias, aunque por falta de datos en la parte de Valores de compra, 
 #no se puede probar correctamente.
 
+//Consulta 7
+
+SELECT (Cl.nombre)Nombre,(SUM(Va.Cantidad*Acc.precio)+SUM(Vc.Cantidad*Com.precio)+
+SUM(Vb.Cantidad*Bi.precio))'Dinero Gastado',CASE WHEN (SUM(Va.Cantidad*Acc.precio)+SUM(Vc.Cantidad*Com.precio)+
+SUM(Vb.Cantidad*Bi.precio))>(SELECT AVG(VV) FROM (SELECT (SUM(Vaa.Cantidad*Ac.precio)+SUM(Vcc.Cantidad*Comm.precio)+
+SUM(Vbb.Cantidad*Bii.precio)) AS VV
+FROM venta_accesorio Vaa INNER JOIN Accesorio Ac INNER JOIN venta Ve INNER JOIN Cliente Cll INNER JOIN venta_componente Vcc
+INNER JOIN componente Comm INNER JOIN venta_bicleta Vbb INNER JOIN bicicleta Bii
+ON Vaa.refaccesorio=Ac.referencia AND Vcc.refcomponente=Comm.referencia AND Vbb.refbicicleta=Bii.referencia
+AND Ve.idventa=Vaa.idventa AND Ve.idventa=Vcc.idventa AND Ve.idventa=Vbb.idventa AND Ve.Cliente=Cll.Documento
+GROUP BY Cll.Documento)TAB)THEN 'Cliente Premium' ELSE 'Cliente Normal' END TipoCliente
+FROM venta_accesorio Va INNER JOIN Accesorio Acc INNER JOIN venta V INNER JOIN Cliente Cl INNER JOIN venta_componente Vc
+INNER JOIN componente Com INNER JOIN venta_bicleta Vb INNER JOIN bicicleta Bi
+ON Va.refaccesorio=Acc.referencia AND Vc.refcomponente=Com.referencia AND Vb.refbicicleta=Bi.referencia
+AND V.idventa=Va.idventa AND V.idventa=Vc.idventa AND V.idventa=Vb.idventa AND V.Cliente=Cl.documento
+GROUP BY Cl.Documento;
+
+
 //Consulta 8
 SELECT (M.Nombre)Marca, (SELECT COUNT(B.Marca) FROM Bicicleta B WHERE B.Marca=M.IdMarca)Bicicletas,
 (SELECT COUNT(A.Marca) FROM Accesorio A WHERE A.Marca=M.IdMarca)Componentes,
@@ -56,7 +74,7 @@ SELECT (M.Nombre)Marca, (SELECT COUNT(B.Marca) FROM Bicicleta B WHERE B.Marca=M.
 (SELECT COUNT(C.Marca) FROM Componente C)))'% del Total'
 FROM Marca M;
 
-#Anacleta robando a Pandolfo desde tiempos inmemorables
+#Anacleta. Funciona
 //Consulta 9
 SELECT  A.Referencia, (TA.Nombre)Accesorio, (TA.Descripcion)Descripcion, A.Color
 FROM TipoAccesorio TA JOIN Accesorio A ON A.Tipo= TA.IdTipoAcc 
