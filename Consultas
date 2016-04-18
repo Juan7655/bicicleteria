@@ -22,6 +22,20 @@ GROUP BY MONTH(V.Fecha);
 
 #Anacleta. Funciona . Al menos con los datos que tenemos
 
+
+
+/*Consulta 5*/
+
+SELECT Bici.Referencia Ref, TipB.nombre Tipo_Bici, BiciComp.RefComponente , TipC.Nombre Nom_Componente, M.Nombre Marca
+FROM Bicicleta Bici
+INNER JOIN TipoBicicleta TipB ON Bici.Tipo = TipB.IdTipoBic
+	INNER JOIN Bicicleta_Componente BiciComp ON Bici.Referencia = BiciComp.RefBicicleta
+		INNER JOIN Componente Comp ON BiciComp.RefComponente = Comp.Referencia
+			INNER JOIN TipoComponente TipC ON Comp.Referencia = TipC.IdTipoCom
+				INNER JOIN Marca M ON Comp.Marca = M.IdMarca;
+#Pandolfo. Funciona bien, pero se podría ver mejor, además es sumamente sencillo.
+
+
 //Consulta 10
 SELECT (C.Nombre)Cliente, V.Fecha,(E.Nombre)Vendedor,(TB.Nombre)Bicicleta, (TA.Nombre)Accesorio, (TC.Nombre)Componente
 FROM Venta V INNER JOIN Cliente C INNER JOIN Empleado E 
@@ -33,16 +47,5 @@ B.Referencia= VB.RefBicicleta AND TB.IdTipoBic= B.Tipo  AND VA.IdVenta= V.IdVent
 A.Referencia= VA.RefAccesorio AND TA.IdTipoAcc= A.Tipo  AND VC.IdVenta= V.IdVenta AND 
 Co.Referencia= VC.RefComponente AND TC.IdTipoCom= Co.Tipo
 ORDER BY C.Nombre, E.Nombre, TB.Nombre, TA.Nombre, TC.Nombre;
-
-/*Consulta 5*/
-
-SELECT Bici.Referencia Ref, TipB.nombre Tipo_Bici, BiciComp.RefComponente , TipC.Nombre Nom_Componente, M.Nombre Marca
-FROM Bicicleta Bici
-INNER JOIN TipoBicicleta TipB ON Bici.Tipo = TipB.IdTipoBic
-	INNER JOIN Bicicleta_Componente BiciComp ON Bici.Referencia = BiciComp.RefBicicleta
-		INNER JOIN Componente Comp ON BiciComp.RefComponente = Comp.Referencia
-			INNER JOIN TipoComponente TipC ON Comp.Referencia = TipC.IdTipoCom
-				INNER JOIN Marca M ON Comp.Marca = M.IdMarca;
-#Pandolfo. Funciona bien, pero se podría ver mejor, además es sumamente sencillo.				
 
 
