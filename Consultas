@@ -22,10 +22,16 @@ GROUP BY MONTH(V.Fecha);
 
 #Anacleta. Funciona . Al menos con los datos que tenemos
 
-//Consulta 3
+//Consulta 10
 SELECT (C.Nombre)Cliente, V.Fecha,(E.Nombre)Vendedor,(TB.Nombre)Bicicleta, (TA.Nombre)Accesorio, (TC.Nombre)Componente
-FROM Venta V INNER JOIN Cliente C INNER JOIN Empleado E INNER JOIN Venta_Bicleta VB INNER JOIN Bicicleta B INNER JOIN TipoBicicleta TB INNER JOIN Venta_Accesorio VA INNER JOIN Accesorio A INNER JOIN TipoAccesorio TA  INNER JOIN Venta_Componente VC INNER JOIN Componente Co INNER JOIN TipoComponente TC
-ON V.Cliente=C.Documento AND E.Documento= V.Empleado AND VB.IdVenta= V.IdVenta AND B.Referencia= VB.RefBicicleta AND TB.IdTipoBic= B.Tipo  AND VA.IdVenta= V.IdVenta AND A.Referencia= VA.RefAccesorio AND TA.IdTipoAcc= A.Tipo  AND VC.IdVenta= V.IdVenta AND Co.Referencia= VC.RefComponente AND TC.IdTipoCom= Co.Tipo
+FROM Venta V INNER JOIN Cliente C INNER JOIN Empleado E 
+INNER JOIN Venta_Bicleta VB INNER JOIN Bicicleta B INNER JOIN TipoBicicleta TB
+INNER JOIN Venta_Accesorio VA INNER JOIN Accesorio A INNER JOIN TipoAccesorio TA 
+INNER JOIN Venta_Componente VC INNER JOIN Componente Co INNER JOIN TipoComponente TC
+ON V.Cliente=C.Documento AND E.Documento= V.Empleado AND VB.IdVenta= V.IdVenta AND 
+B.Referencia= VB.RefBicicleta AND TB.IdTipoBic= B.Tipo  AND VA.IdVenta= V.IdVenta AND
+A.Referencia= VA.RefAccesorio AND TA.IdTipoAcc= A.Tipo  AND VC.IdVenta= V.IdVenta AND 
+Co.Referencia= VC.RefComponente AND TC.IdTipoCom= Co.Tipo
 ORDER BY C.Nombre, E.Nombre, TB.Nombre, TA.Nombre, TC.Nombre;
 
 /*Consulta 5*/
