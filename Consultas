@@ -61,7 +61,7 @@ INNER JOIN componente Com INNER JOIN venta_bicleta Vb INNER JOIN bicicleta Bi
 ON Va.refaccesorio=Acc.referencia AND Vc.refcomponente=Com.referencia AND Vb.refbicicleta=Bi.referencia
 AND V.idventa=Va.idventa AND V.idventa=Vc.idventa AND V.idventa=Vb.idventa AND V.Cliente=Cl.documento
 GROUP BY Cl.Documento;
-
+#Anacleta. Funciona
 
 //Consulta 8
 SELECT (M.Nombre)Marca, (SELECT COUNT(B.Marca) FROM Bicicleta B WHERE B.Marca=M.IdMarca)Bicicletas,
