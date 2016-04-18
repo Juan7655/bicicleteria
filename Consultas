@@ -46,6 +46,13 @@ WHERE TipB.Nombre = (
 GROUP BY Mes_Venta;
 #Pandolfo. Muestra el mes y la cantidad de ventas de ese mes, aún se puede mejorar añadiendo un calificador, y que muestre también el año
 
+/*Consulta 4*/
+
+SELECT Emp.Nombre Empleado, COUNT(V.Empleado) Numero_Ventas
+FROM Empleado Emp
+INNER JOIN Venta V ON Emp.Documento = V.Empleado
+GROUP BY Empleado;
+
 /*Consulta 5*/
 
 SELECT Bici.Referencia Ref, TipB.nombre Tipo_Bici, BiciComp.RefComponente , TipC.Nombre Nom_Componente, M.Nombre Marca
