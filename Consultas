@@ -25,7 +25,26 @@ GROUP BY MONTH(V.Fecha);
 
 #Anacleta. Funciona 
 
+/*Consulta 3*/
 
+SELECT TipB.Nombre Tipo_Bici, SUM(VenB.Cantidad) UnidadesVendidas, MONTH(V.Fecha) Mes_Venta
+FROM Bicicleta Bici
+INNER JOIN TipoBicicleta TipB ON Bici.Tipo = TipB.IdTipoBic
+INNER JOIN Venta_Bicleta VenB INNER JOIN Venta V ON Bici.Referencia = VenB.RefBicicleta AND VenB.IdVenta = V.IdVenta
+WHERE TipB.Nombre = (
+
+	SELECT tablita.Tipo 
+	FROM (
+		SELECT tabla.Tipo_Bici Tipo,MAX(tabla.UnidadesVendidas) 
+			FROM (SELECT TipoBicicleta.Nombre Tipo_Bici, SUM(Venta_Bicleta.Cantidad) UnidadesVendidas, Venta.Fecha Fecha_Venta
+				FROM Bicicleta
+				INNER JOIN TipoBicicleta ON Bicicleta.Tipo = TipoBicicleta.IdTipoBic
+				INNER JOIN Venta_Bicleta ON Bicicleta.Referencia = Venta_Bicleta.RefBicicleta
+				INNER JOIN Venta ON Venta_Bicleta.IdVenta = Venta.IdVenta
+				GROUP BY Tipo_Bici) tabla) tablita
+	 )
+GROUP BY Mes_Venta;
+#Pandolfo. Muestra el mes y la cantidad de ventas de ese mes, aún se puede mejorar añadiendo un calificador, y que muestre también el año
 
 /*Consulta 5*/
 
