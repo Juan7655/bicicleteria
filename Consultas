@@ -71,6 +71,14 @@ FROM cliente C INNER JOIN venta V ON C.Documento = V.Cliente Group By C.Document
 #Juan7655 Hasta el momento no presenta inconsistencias, aunque por falta de datos en la parte de Valores de compra, 
 #no se puede probar correctamente.
 
+/*Consulta 6*/
+
+SELECT M.Nombre Marca, TipC.Nombre 'Tipo Componente', Comp.Precio Precio
+FROM Componente Comp
+INNER JOIN Marca M INNER JOIN TipoComponente TipC ON Comp.Marca = M.IdMarca AND Comp.Tipo = TipC.IdTipoCom
+WHERE Precio = (SELECT MIN(Precio) FROM Componente) ;
+#Pandolfo
+
 //Consulta 7
 
 SELECT (Cl.nombre)Nombre,(SUM(Va.Cantidad*Acc.precio)+SUM(Vc.Cantidad*Com.precio)+
