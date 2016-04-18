@@ -217,6 +217,19 @@ Update venta
 SET Fecha='2015-08-11'
 WHERE idventa=4;
 
+#------------------
+#(id, refBici, idVenta, Cantidad)
+INSERT INTO Venta_Bicleta
+VALUES
+(6, 1, 6, 2),
+(7, 1, 7, 2),
+(8, 1, 8, 1);
 
+#(id, cliente, fecha, empleado)
+INSERT INTO Venta
+VALUES
+(6, 1031292087, '2016-03-27', 1072925969),
+(7, 1237701774, '2016-03-19', 1072925969),
+(8, 3455324564, '2016-03-17', 1072925969);
 
-
+#Pandolfo, Estos registros los agregué para comprobar que la query 3 funciona bien.
