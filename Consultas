@@ -9,6 +9,19 @@ AND V.idventa=Va.idventa AND V.idventa=Vc.idventa AND V.idventa=Vb.idventa
 ;
 #Anacleta. Aqui hay un problema y es que los egresos no muestran el valor que debe ser.
 
+//Consulta 2
+
+SELECT MONTH(V.Fecha)Mes,(Tb.nombre)TipoMasVendido,(Vb.cantidad*Bi.precio)Ganancia
+FROM tipobicicleta Tb INNER JOIN bicicleta Bi INNER JOIN venta_bicleta Vb INNER JOIN venta V
+ON Tb.IdTipoBic=Bi.tipo AND Bi.referencia=Vb.refbicicleta AND V.idventa=Vb.idventa
+WHERE Vb.cantidad*Bi.precio=(SELECT MIN(Vbb.cantidad*Bic.precio) 
+FROM tipobicicleta T INNER JOIN bicicleta Bic INNER JOIN venta_bicleta Vbb INNER JOIN venta Ve
+ON T.IdTipoBic=Bic.tipo AND Bic.referencia=Vbb.refbicicleta AND Ve.idventa=Vbb.idventa
+WHERE MONTH(V.Fecha)=MONTH(Ve.Fecha))
+GROUP BY MONTH(V.Fecha);
+
+#Anacleta. Funciona . Al menos con los datos que tenemos
+
 /*Consulta 5*/
 
 SELECT Bici.Referencia Ref, TipB.nombre Tipo_Bici, BiciComp.RefComponente , TipC.Nombre Nom_Componente, M.Nombre Marca
