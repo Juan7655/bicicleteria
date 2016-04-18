@@ -1,13 +1,14 @@
 //Consulta 1
 
-SELECT SUM(Cm.ValorTotal)Egresos,(SUM(Va.Cantidad*Acc.precio)+SUM(Vc.Cantidad*Com.precio)+
-SUM(Vb.Cantidad*Bi.precio))Ingresos
-FROM Compra Cm,venta_accesorio Va INNER JOIN Accesorio Acc INNER JOIN venta V INNER JOIN venta_componente Vc
+SELECT* FROM(SELECT(SUM(Va.Cantidad*Acc.precio)+SUM(Vc.Cantidad*Com.precio)+
+SUM(Vb.Cantidad*Bi.precio))Ingresos,(SELECT SUM(ValorTotal) FROM compra)Egresos
+FROM venta_accesorio Va INNER JOIN Accesorio Acc INNER JOIN venta V INNER JOIN venta_componente Vc
 INNER JOIN componente Com INNER JOIN venta_bicleta Vb INNER JOIN bicicleta Bi
 ON Va.refaccesorio=Acc.referencia AND Vc.refcomponente=Com.referencia AND Vb.refbicicleta=Bi.referencia
-AND V.idventa=Va.idventa AND V.idventa=Vc.idventa AND V.idventa=Vb.idventa
+AND V.idventa=Va.idventa AND V.idventa=Vc.idventa AND V.idventa=Vb.idventa)DUMA
 ;
-#Anacleta. Aqui hay un problema y es que los egresos no muestran el valor que debe ser.
+
+#Anacleta. Ya logre que se mostraran los valores correctos de ingresos y egresos(en teeoria) pero no supe como restarlos para la ganancia
 
 //Consulta 2
 
