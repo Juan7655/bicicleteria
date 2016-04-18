@@ -38,6 +38,17 @@ INNER JOIN TipoBicicleta TipB ON Bici.Tipo = TipB.IdTipoBic
 				INNER JOIN Marca M ON Comp.Marca = M.IdMarca;
 #Pandolfo. Funciona bien, pero se podría ver mejor, además es sumamente sencillo.
 
+//Consulta 9
+SELECT  A.Referencia, (TA.Nombre)Accesorio, (TA.Descripcion)Descripcion, A.Color
+FROM TipoAccesorio TA JOIN Accesorio A ON A.Tipo= TA.IdTipoAcc 
+LEFT OUTER JOIN venta_accesorio VA 
+ON VA.RefAccesorio= A.Referencia 
+WHERE VA.RefAccesorio is NULL;
+
+#Este es el registro que coloque para que saliera algún accesorio que no se ha vendido:
+INSERT INTO Accesorio
+VALUES (12,2,'15000',0,10,'Rojo','Plástico',5,'NA',0);
+
 
 //Consulta 10
 SELECT (C.Nombre)Cliente, V.Fecha,(E.Nombre)Vendedor,(TB.Nombre)Bicicleta, (TA.Nombre)Accesorio, (TC.Nombre)Componente
