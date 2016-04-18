@@ -1,9 +1,6 @@
 CREATE DATABASE Bicicol;
 USE bicicol;
-#Probando, probando
-#probando
 
-#1,2,3 Hilf Mir
 
 CREATE TABLE Proveedor(
 NitEmpresa VARCHAR(150) NOT NULL PRIMARY KEY,
@@ -88,7 +85,7 @@ REFERENCES Accesorio(Referencia);
 CREATE TABLE TipoComponente(
 IdTipoCom VARCHAR(150) NOT NULL,
 Nombre VARCHAR(150)NOT NULL,
-Descripcion VARCHAR(150),
+Descripcion VARCHAR(150)
 PRIMARY KEY (IdTipoCom));
 #Anacleta
 
@@ -131,7 +128,7 @@ REFERENCES Componente(Referencia);
 CREATE TABLE TipoBicicleta(
 IdTipoBic VARCHAR(150) NOT NULL,
 Nombre VARCHAR(150)NOT NULL,
-Descripcion VARCHAR(150),
+Descripcion VARCHAR(150)
 PRIMARY KEY (IdTipoBic));
 #Anacleta
 
@@ -193,22 +190,6 @@ Documento VARCHAR(150) NOT NULL,
 Nombre VARCHAR(150) NOT NULL,
 Telefono VARCHAR(150) NOT NULL,
 PRIMARY KEY (Documento));
-
-CREATE TABLE Cuenta(
-Email VARCHAR(150) NOT NULL,
-Constraseña VARCHAR(150) NOT NULL,
-Usuario VARCHAR(150) NOT NULL,
-Cliente VARCHAR(150),
-Empleado VARCHAR(150),
-PRIMARY KEY(Email));
-
-ALTER TABLE Cuenta
-ADD CONSTRAINT Cliente_FK
-FOREIGN KEY (Cliente)
-REFERENCES Cliente(Documento),
-ADD CONSTRAINT Empleado_FK
-FOREIGN KEY (Empleado)
-REFERENCES Empleado(Documento);
 
 CREATE TABLE Venta(
 IdVenta VARCHAR(150) NOT NULL,
@@ -285,4 +266,7 @@ ADD CONSTRAINT RefComponente2_fk
 FOREIGN KEY (RefComponente)
 REFERENCES Componente(Referencia);
 
-DROP TABLE Cuenta;
+#Pandolfo. Hay que borrar la columna 'Valor_Total' de la tabla venta, agrego la sentencia correspondiente
+
+ALTER TABLE Venta DROP ValorTotal;
+
