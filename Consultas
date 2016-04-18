@@ -37,6 +37,14 @@ INNER JOIN TipoBicicleta TipB ON Bici.Tipo = TipB.IdTipoBic
 			INNER JOIN TipoComponente TipC ON Comp.Referencia = TipC.IdTipoCom
 				INNER JOIN Marca M ON Comp.Marca = M.IdMarca;
 #Pandolfo. Funciona bien, pero se podría ver mejor, además es sumamente sencillo.
+
+//Consulta 6
+SELECT Nombre Cliente_Preferencial, Documento, max(Valor_comprado) Valor_comprado FROM
+(SELECT C.Nombre, C.Documento, SUM(ValorTotal) Valor_comprado
+FROM cliente C INNER JOIN venta V ON C.Documento = V.Cliente Group By C.Documento) Cliente_compra;
+#Juan7655 Hasta el momento no presenta inconsistencias, aunque por falta de datos en la parte de Valores de compra, 
+#no se puede probar correctamente.
+
 //Consulta 8
 SELECT (M.Nombre)Marca, (SELECT COUNT(B.Marca) FROM Bicicleta B WHERE B.Marca=M.IdMarca)Bicicletas,
 (SELECT COUNT(A.Marca) FROM Accesorio A WHERE A.Marca=M.IdMarca)Componentes,
