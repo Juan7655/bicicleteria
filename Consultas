@@ -10,7 +10,7 @@ ON Va.refaccesorio=Acc.referencia AND Vc.refcomponente=Com.referencia AND Vb.ref
 AND V.idventa=Va.idventa AND V.idventa=Vc.idventa AND V.idventa=Vb.idventa
 ;
 
-#MiSeudónimoRaro(?)Versión modificada. Funciona mostrando Ingresos, Egresos y Ganancia (Ingresos - Egresos)
+#Juan7655Versión modificada. Funciona mostrando Ingresos, Egresos y Ganancia (Ingresos - Egresos)
 
 //Consulta 2
 
