@@ -27,6 +27,14 @@ GROUP BY MONTH(V.Fecha);
 
 
 
+//Consulta 4
+SELECT E.Nombre, E.Documento, COUNT(V.Empleado) Numero_ventas,
+SUM(V.ValorTotal) Monto_vendido
+FROM empleado E INNER JOIN venta V 
+ON V.Empleado = E.Documento
+GROUP BY V.Empleado
+
+
 /*Consulta 5*/
 
 SELECT Bici.Referencia Ref, TipB.nombre Tipo_Bici, BiciComp.RefComponente , TipC.Nombre Nom_Componente, M.Nombre Marca
