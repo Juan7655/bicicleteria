@@ -6,13 +6,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author JuanDavid
  */
 public class Database {
-    
+    Connection conn;
     public Database(){
     }
     
@@ -33,7 +35,7 @@ public class Database {
         condicion = ((condicion.equals("empty")) || (condicion.equals("0"))) ? null : condicion;
         try {
             ArrayList<String> array;
-            try (Connection conn = getConnection()) {
+                getConnection();
                 PreparedStatement posted = conn.prepareStatement("USE Biblioteca_principal;");
                 posted.executeUpdate();
                 if (entidad == null) {
@@ -56,39 +58,32 @@ public class Database {
                 while (result.next()) {
                     array.add(result.getString(1));
                 }
-            }
             return array;
         } catch (SQLException | NullPointerException e) {
             System.out.println("Error: " + e);
-        } finally {
-            System.out.println("Query terminated.");
         }
         return null;
     }
-    //TODO Cambiar el usuario, la contrase馻 y la direcci髇 de la conexi髇!!
+    //TODO Cambiar el usuario, la contrase帽a y la direcci贸n de la conexi贸n!!
     /**
      * Metodo base para conectar la aplicacion con la Base de Datos. Para realizar cualquier Query, se debe llamar este metodo.
-     * @return
      * @throws Exception 
      */
-    public Connection getConnection() throws Exception {
+    public void getConnection() throws Exception {
         try {
             String driver = "com.mysql.jdbc.Driver";
-            //Esta opci贸n es para la base de datos local
+            //Esta opci脙鲁n es para la base de datos local
             //String url = "jdbc:mysql://127.0.0.1:3306";
             
-            //Esta opci贸n es para la Base de datos en Google SQL Cloud
+            //Esta opci脙鲁n es para la Base de datos en Google SQL Cloud
             String url = "jdbc:mysql://104.196.97.175:3306";
             String username = "root";
             String password = "1234";
             Class.forName(driver);
-            Connection conn = DriverManager.getConnection(url, username, password);
-            System.out.println("Connected");
-            return conn;
+            conn = DriverManager.getConnection(url, username, password);
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println("Not connected: " + e);
         }
-        return null;
     }
 
     /**
@@ -110,13 +105,12 @@ public class Database {
            atrCompuesto+=i; 
         }
         try {
-            try (Connection conn = getConnection()) {
+                getConnection();
                 PreparedStatement posted = conn.prepareStatement("USE Biblioteca_principal;");
                 posted.executeUpdate();
                 posted = conn.prepareStatement("INSERT INTO " + entidad + "(" + atrCompuesto + ") VALUES(" + valCompuesto + ");");
                 posted.executeUpdate();
-                System.out.println("Insert completed.");
-            }
+            
         } catch (Exception e) {
             System.out.println("Error: " + e);
         } finally {
@@ -134,14 +128,12 @@ public class Database {
     public boolean existe(String valor, String entidad, String atributo) {
         try {
             ResultSet result;
-            try (Connection conn = getConnection()) {
+                getConnection();
                 PreparedStatement posted = conn.prepareStatement("USE Biblioteca_principal;");
                 posted.executeUpdate();
                 posted = conn.prepareStatement("SELECT " + atributo + " FROM " + entidad
                         + " WHERE " + atributo + " = '" + valor + "';");
                 result = posted.executeQuery();
-                //conn.close();
-            }
             return result.wasNull();
         } catch (Exception ex) {
             System.out.println("Error: " + ex);
@@ -163,7 +155,7 @@ public class Database {
     public int getId(String valor, String entidad, String atributo) throws Exception {
         ResultSet result;
         try {
-            try (Connection conn = getConnection()) {
+                getConnection();
                 PreparedStatement posted = conn.prepareStatement("USE Biblioteca_principal;");
                 posted.executeUpdate();
                 posted = conn.prepareStatement("SELECT " + entidad + "_id FROM " + entidad
@@ -174,13 +166,20 @@ public class Database {
                     temp.add(result.getString(entidad+"_id"));
                 }
                 return Integer.parseInt(temp.get(0));
-            }
-
         } catch (SQLException | NumberFormatException ex) {
             System.out.println("Error: " + ex);
-            //System.out.println("Tama帽o del arreglo: " + result.getString(1));
         }
-        System.out.println("Sin ID recibido. Retorna el valor 0");
         return 0;
+    }
+
+    /**
+     * Cerrar la conexion
+     */
+    public void close() {
+        try {
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
