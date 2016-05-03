@@ -85,7 +85,7 @@ REFERENCES Accesorio(Referencia);
 CREATE TABLE TipoComponente(
 IdTipoCom INT NOT NULL,
 Nombre VARCHAR(150)NOT NULL,
-Descripcion VARCHAR(150)
+Descripcion VARCHAR(150),
 PRIMARY KEY (IdTipoCom));
 #Anacleta
 
@@ -128,7 +128,7 @@ REFERENCES Componente(Referencia);
 CREATE TABLE TipoBicicleta(
 IdTipoBic INT NOT NULL,
 Nombre VARCHAR(150)NOT NULL,
-Descripcion VARCHAR(150)
+Descripcion VARCHAR(150),
 PRIMARY KEY (IdTipoBic));
 #Anacleta
 
