@@ -174,7 +174,7 @@ PRIMARY KEY(IdCargo));
 #Anacleta
 
 CREATE TABLE Empleado(
-Documento INT NOT NULL,
+Documento BIGINT NOT NULL,
 Nombre VARCHAR(150) NOT NULL,
 Cargo INT NOT NULL,
 Telefono VARCHAR(150) NOT NULL,
@@ -186,16 +186,16 @@ FOREIGN KEY (Cargo)
 REFERENCES Cargo(IdCargo);
 
 CREATE TABLE Cliente(
-Documento INT NOT NULL,
+Documento BIGINT NOT NULL,
 Nombre VARCHAR(150) NOT NULL,
 Telefono VARCHAR(150) NOT NULL,
 PRIMARY KEY (Documento));
 
 CREATE TABLE Venta(
 IdVenta INT NOT NULL,
-Cliente INT NOT NULL,
+Cliente BIGINT NOT NULL,
 Fecha DATE NOT NULL,
-Empleado INT NOT NULL,
+Empleado BIGINT NOT NULL,
 PRIMARY KEY (IdVenta));
 
 ALTER TABLE Venta
