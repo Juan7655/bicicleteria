@@ -13,7 +13,7 @@ Email VARCHAR(150) NOT NULL);
 CREATE TABLE Compra(
 IdCompra INT NOT NULL,
 ValorTotal FLOAT NOT NULL,
-Fecha VARCHAR(150) NOT NULL,
+Fecha DATE NOT NULL,
 PRIMARY KEY (IdCompra));
 #Anacleta
 
@@ -127,7 +127,7 @@ REFERENCES Componente(Referencia);
 
 CREATE TABLE TipoBicicleta(
 IdTipoBic INT NOT NULL,
-Nombre VARCHAR(150)NOT NULL,
+Nombre VARCHAR(150) NOT NULL,
 Descripcion VARCHAR(150),
 PRIMARY KEY (IdTipoBic));
 #Anacleta
@@ -136,7 +136,7 @@ CREATE TABLE Bicicleta(
 Referencia INT NOT NULL,
 Precio FLOAT NOT NULL,
 Tipo INT NOT NULL,
-Talla VARCHAR(150) NOT NULL,
+Talla VARCHAR(10) NOT NULL,
 UnidadesVendidas INT NOT NULL,
 UnidadesStock INT NOT NULL,
 Marca INT NOT NULL,
