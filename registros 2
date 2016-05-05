@@ -45,6 +45,20 @@ VALUES(1,'Termo','Recipiente para liquidos'),
 (10,'Guardabarros','NA');
 
 INSERT INTO Accesorio
+<<<<<<< HEAD
+VALUES (1,1,'10000',25,15,'Verde','Plástico',4,'NA',0),
+(2,1,'15000',36,10,'Blanco','Plástico',4,'Termo con gel refrigerante',0),
+(3,2,'30000',25,12,'Verde','Poliestireno',3,'Casco ligero de alto rendimiento',12),
+(4,3,'50000',12,9,'Negro','Metal',7,'Para vehículo, un solo compartimiento',12),
+(5,4,'25000',15,12,'Amarrillo','Spandex',8,'Camiseta manga corta flexible y se adapta facilmente',12),
+(6,5,'15000',11,11,'Negro','Cuero',7,'Bontrager Classique',12),
+(7,6,'30000',9,11,'Naranja','Policarbonato',2,'Polarizadas',12),
+(8,7,'25000',12,12,'Negro','Tela',8,'Ligera y adaptable',1),
+(9,8,'7000',11,9,'Negro','Policarbonato',2,'NA',12),
+(10,9,'5000',20,15,'NA','NA',6,'Unidad, se puede implementar en cualquier lado de la bicicleta',12),
+(11,10,'7000',12,13,'Negro','Plástico',5,'NA',0);
+(12,2,'15000',0,10,'Rojo','Plástico',5,'NA',0);
+=======
 VALUES (1,1,10000,25,15,'Verde','Plástico',4,'NA',0),
 (2,1,15000,36,10,'Blanco','Plástico',4,'Termo con gel refrigerante',0),
 (3,2,30000,25,12,'Verde','Poliestireno',3,'Casco ligero de alto rendimiento',12),
@@ -57,6 +71,7 @@ VALUES (1,1,10000,25,15,'Verde','Plástico',4,'NA',0),
 (10,9,5000,20,15,'NA','NA',6,'Unidad, se puede implementar en cualquier lado de la bicicleta',12),
 (11,10,7000,12,13,'Negro','Plástico',5,'NA',0),
 (12,2,15000,0,10,'Rojo','Plástico',5,'NA',0);
+>>>>>>> refs/remotes/origin/master
 
 INSERT INTO Compra_Accesorio
 VALUES (1,1,3,6),(2,1,7,6),
@@ -139,11 +154,19 @@ VALUES (1072925969, 'Armando Casas',2, '6498310'),
 (46578958,'Daniela Garcia',3,'2394837');
 
 INSERT INTO Cliente
+<<<<<<< HEAD
+VALUES (1311459547, 'Laura Bernal', 8253704),
+(1237701774, 'Santiago MartÌnez', 82534658),
+(1031292087, 'Viviana Carpintero', 8562738),
+(1900181171, 'Juan Lopez', 8254648),
+(3455324564, 'Marcela Gutierrez',8965432);
+=======
 VALUES (1311459547, 'Laura Bernal', '8253704'),
 (1237701774, 'Santiago MartÌnez', '82534658'),
 (1031292087, 'Viviana Carpintero', '8562738'),
 (1900181171, 'Juan Lopez', '8254648'),
 (3455324564, 'Marcela Gutierrez','8965432');
+>>>>>>> refs/remotes/origin/master
 
 #Pandolfo edit. 
 #En el 5to registro de esta tabla (venta), estaba mal el número de cliente
@@ -198,12 +221,47 @@ VALUES
 #Anacleta. 16/04 22:46 Todas las tablas tienen registros. Falta comprobar estos ultimos que agregue después del ultimo comentario
 #Pandolfo. 17/04 09:26 Todos los registros probados y funcionando
 
+<<<<<<< HEAD
+UPDATE compra
+=======
 UPDATE Compra
+>>>>>>> refs/remotes/origin/master
 SET ValorTotal=12500000
 WHERE idCompra=3;
 #Anacleta. 17/04 15:23 El valor de esta compra es de 12 millones 500
 
 
+<<<<<<< HEAD
+UPDATE venta
+SET Fecha='2016-01-24'
+WHERE idventa=1;
+UPDATE venta
+SET Fecha='2015-04-27'
+WHERE idventa=2;
+UPDATE venta
+SET Fecha='2015-11-21'
+WHERE idventa=3;
+Update venta
+SET Fecha='2015-08-11'
+WHERE idventa=4;
+
+#------------------
+#(id, refBici, idVenta, Cantidad)
+INSERT INTO Venta_Bicleta
+VALUES
+(6, 1, 6, 2),
+(7, 1, 7, 2),
+(8, 1, 8, 1);
+
+#(id, cliente, fecha, empleado)
+INSERT INTO Venta
+VALUES
+(6, 1031292087, '2016-03-27', 1072925969),
+(7, 1237701774, '2016-03-19', 1072925969),
+(8, 3455324564, '2016-03-17', 1072925969);
+
+#Pandolfo, Estos registros los agregué para comprobar que la query 3 funciona bien.
+=======
 UPDATE Venta
 SET Fecha='2016-01-24'
 WHERE idventa=1;
@@ -216,3 +274,4 @@ WHERE idventa=3;
 Update Venta
 SET Fecha='2015-08-11'
 WHERE idventa=4;
+>>>>>>> refs/remotes/origin/master

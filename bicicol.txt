@@ -127,7 +127,11 @@ REFERENCES Componente(Referencia);
 
 CREATE TABLE TipoBicicleta(
 IdTipoBic INT NOT NULL,
+<<<<<<< HEAD
+Nombre VARCHAR(150) NOT NULL,
+=======
 Nombre VARCHAR(150)NOT NULL,
+>>>>>>> refs/remotes/origin/master
 Descripcion VARCHAR(150),
 PRIMARY KEY (IdTipoBic));
 #Anacleta
@@ -174,7 +178,11 @@ PRIMARY KEY(IdCargo));
 #Anacleta
 
 CREATE TABLE Empleado(
+<<<<<<< HEAD
+Documento INT NOT NULL,
+=======
 Documento BIGINT NOT NULL,
+>>>>>>> refs/remotes/origin/master
 Nombre VARCHAR(150) NOT NULL,
 Cargo INT NOT NULL,
 Telefono VARCHAR(150) NOT NULL,
@@ -186,16 +194,26 @@ FOREIGN KEY (Cargo)
 REFERENCES Cargo(IdCargo);
 
 CREATE TABLE Cliente(
+<<<<<<< HEAD
+Documento INT NOT NULL,
+=======
 Documento BIGINT NOT NULL,
+>>>>>>> refs/remotes/origin/master
 Nombre VARCHAR(150) NOT NULL,
 Telefono VARCHAR(150) NOT NULL,
 PRIMARY KEY (Documento));
 
 CREATE TABLE Venta(
 IdVenta INT NOT NULL,
+<<<<<<< HEAD
+Cliente INT NOT NULL,
+Fecha DATE NOT NULL,
+Empleado INT NOT NULL,
+=======
 Cliente BIGINT NOT NULL,
 Fecha DATE NOT NULL,
 Empleado BIGINT NOT NULL,
+>>>>>>> refs/remotes/origin/master
 PRIMARY KEY (IdVenta));
 
 ALTER TABLE Venta
@@ -266,5 +284,11 @@ ADD CONSTRAINT RefComponente2_fk
 FOREIGN KEY (RefComponente)
 REFERENCES Componente(Referencia);
 
+<<<<<<< HEAD
+#Pandolfo. Hay que borrar la columna 'Valor_Total' de la tabla venta, agrego la sentencia correspondiente
+
+ALTER TABLE Venta DROP ValorTotal;
+=======
 #Pandolfo La wea funca
+>>>>>>> refs/remotes/origin/master
 
