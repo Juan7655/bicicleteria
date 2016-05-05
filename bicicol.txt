@@ -1,9 +1,9 @@
 CREATE DATABASE Bicicol;
-USE Bicicol;
+USE bicicol;
 
 
 CREATE TABLE Proveedor(
-NitEmpresa VARCHAR(150) NOT NULL PRIMARY KEY,
+NitEmpresa INT NOT NULL PRIMARY KEY,
 NombreEmpresa VARCHAR(150) NOT NULL,
 Telefono VARCHAR(150) NOT NULL,
 Ciudad VARCHAR(150) NOT NULL,
@@ -11,16 +11,16 @@ Direccion VARCHAR(150) NOT NULL,
 Email VARCHAR(150) NOT NULL);
 
 CREATE TABLE Compra(
-IdCompra VARCHAR(150) NOT NULL,
+IdCompra INT NOT NULL,
 ValorTotal FLOAT NOT NULL,
-Fecha VARCHAR(150) NOT NULL,
+Fecha DATE NOT NULL,
 PRIMARY KEY (IdCompra));
 #Anacleta
 
 CREATE TABLE Compra_Proveedor(
-IdComPro VARCHAR(150) NOT NULL,
-IdCompra VARCHAR(150) NOT NULL,
-NitEmpresa VARCHAR(150) NOT NULL,
+IdComPro INT NOT NULL,
+IdCompra INT NOT NULL,
+NitEmpresa INT NOT NULL,
 Valor FLOAT NOT NULL,
 PRIMARY KEY(IdComPro));
 
@@ -33,28 +33,28 @@ FOREIGN KEY (NitEmpresa)
 REFERENCES Proveedor(NitEmpresa);
 
 CREATE TABLE Marca(
-IdMarca VARCHAR(150) NOT NULL,
-Nombre VARCHAR(150)NOT NULL,
+IdMarca INT NOT NULL,
+Nombre VARCHAR(150) NOT NULL,
 Descripcion VARCHAR(150),
 PRIMARY KEY (IdMarca));
 #Anacleta
 
 CREATE TABLE TipoAccesorio(
-IdTipoAcc VARCHAR(150) NOT NULL,
+IdTipoAcc INT NOT NULL,
 Nombre VARCHAR(150)NOT NULL,
 Descripcion VARCHAR(150),
 PRIMARY KEY (IdTipoAcc));
 #Anacleta
 
 CREATE TABLE Accesorio(
-Referencia VARCHAR(150) NOT NULL,
-Tipo VARCHAR(150) NOT NULL,
+Referencia INT NOT NULL,
+Tipo INT NOT NULL,
 Precio FLOAT NOT NULL,
 UnidadesVendidas INT NOT NULL,
 UnidadesStock INT NOT NULL,
 Color VARCHAR(150) NOT NULL,
 Material VARCHAR(150) NOT NULL,
-Marca VARCHAR(150) NOT NULL,
+Marca INT NOT NULL,
 Caracteristicas VARCHAR(150) NOT NULL,
 Garantia INT NOT NULL,
 PRIMARY KEY (Referencia));
@@ -68,9 +68,9 @@ FOREIGN KEY (Marca)
 REFERENCES Marca(IdMarca);
 
 CREATE TABLE Compra_Accesorio(
-IdComAcc VARCHAR(150) NOT NULL,
-IdCompra VARCHAR(150) NOT NULL,
-RefAccesorio VARCHAR(150) NOT NULL,
+IdComAcc INT NOT NULL,
+IdCompra INT NOT NULL,
+RefAccesorio INT NOT NULL,
 Cantidad INT NOT NULL,
 PRIMARY KEY (IdComAcc));
 
@@ -83,22 +83,22 @@ FOREIGN KEY (RefAccesorio)
 REFERENCES Accesorio(Referencia);
 
 CREATE TABLE TipoComponente(
-IdTipoCom VARCHAR(150) NOT NULL,
+IdTipoCom INT NOT NULL,
 Nombre VARCHAR(150)NOT NULL,
 Descripcion VARCHAR(150),
 PRIMARY KEY (IdTipoCom));
 #Anacleta
 
 CREATE TABLE Componente(
-Referencia VARCHAR(150) NOT NULL,
-Marca VARCHAR(150) NOT NULL,
+Referencia INT NOT NULL,
+Marca INT NOT NULL,
 Material VARCHAR(150) NOT NULL,
 Color VARCHAR(150) NOT NULL,
 UnidadesStock INT NOT NULL,
 UnidadesVendidas INT NOT NULL,
 Garantia INT NOT NULL,
 Precio FLOAT NOT NULL,
-Tipo VARCHAR(150) NOT NULL,
+Tipo INT NOT NULL,
 Caracteristicas VARCHAR(150) NOT NULL,
 PRIMARY KEY (Referencia));
 
@@ -111,9 +111,9 @@ FOREIGN KEY (Marca)
 REFERENCES Marca(IdMarca);
 
 CREATE TABLE Compra_Componente(
-IdComComp VARCHAR(150) NOT NULL,
-IdCompra VARCHAR(150) NOT NULL,
-RefComponente VARCHAR(150) NOT NULL,
+IdComComp INT NOT NULL,
+IdCompra INT NOT NULL,
+RefComponente INT NOT NULL,
 Cantidad INT NOT NULL,
 PRIMARY KEY (IdComComp));
 
@@ -126,20 +126,20 @@ FOREIGN KEY (RefComponente)
 REFERENCES Componente(Referencia);
 
 CREATE TABLE TipoBicicleta(
-IdTipoBic VARCHAR(150) NOT NULL,
-Nombre VARCHAR(150)NOT NULL,
+IdTipoBic INT NOT NULL,
+Nombre VARCHAR(150) NOT NULL,
 Descripcion VARCHAR(150),
 PRIMARY KEY (IdTipoBic));
 #Anacleta
 
 CREATE TABLE Bicicleta(
-Referencia VARCHAR(150) NOT NULL,
+Referencia INT NOT NULL,
 Precio FLOAT NOT NULL,
-Tipo VARCHAR(150) NOT NULL,
-Talla VARCHAR(150) NOT NULL,
+Tipo INT NOT NULL,
+Talla VARCHAR(10) NOT NULL,
 UnidadesVendidas INT NOT NULL,
 UnidadesStock INT NOT NULL,
-Marca VARCHAR(150) NOT NULL,
+Marca INT NOT NULL,
 Garantia INT NOT NULL,
 PRIMARY KEY(Referencia));
 
@@ -152,9 +152,9 @@ FOREIGN KEY (Marca)
 REFERENCES Marca(IdMarca);
 
 CREATE TABLE Compra_Bicicleta(
-IdComBic VARCHAR(150) NOT NULL,
-IdCompra VARCHAR(150) NOT NULL,
-RefBicicleta VARCHAR(150) NOT NULL,
+IdComBic INT NOT NULL,
+IdCompra INT NOT NULL,
+RefBicicleta INT NOT NULL,
 Cantidad INT NOT NULL,
 PRIMARY KEY (IdComBic));
 
@@ -167,16 +167,16 @@ FOREIGN KEY (RefBicicleta)
 REFERENCES Bicicleta(Referencia);
 
 CREATE TABLE Cargo(
-IdCargo VARCHAR(150) NOT NULL,
+IdCargo INT NOT NULL,
 Nombre VARCHAR(150) NOT NULL,
 Descripcion VARCHAR(150) NOT NULL,
 PRIMARY KEY(IdCargo));
 #Anacleta
 
 CREATE TABLE Empleado(
-Documento VARCHAR(150) NOT NULL,
+Documento INT NOT NULL,
 Nombre VARCHAR(150) NOT NULL,
-Cargo VARCHAR(150) NOT NULL,
+Cargo INT NOT NULL,
 Telefono VARCHAR(150) NOT NULL,
 PRIMARY KEY (Documento));
 
@@ -186,16 +186,16 @@ FOREIGN KEY (Cargo)
 REFERENCES Cargo(IdCargo);
 
 CREATE TABLE Cliente(
-Documento VARCHAR(150) NOT NULL,
+Documento INT NOT NULL,
 Nombre VARCHAR(150) NOT NULL,
 Telefono VARCHAR(150) NOT NULL,
 PRIMARY KEY (Documento));
 
 CREATE TABLE Venta(
-IdVenta VARCHAR(150) NOT NULL,
-Cliente VARCHAR(150) NOT NULL,
+IdVenta INT NOT NULL,
+Cliente INT NOT NULL,
 Fecha DATE NOT NULL,
-Empleado VARCHAR(150) NOT NULL,
+Empleado INT NOT NULL,
 PRIMARY KEY (IdVenta));
 
 ALTER TABLE Venta
@@ -207,9 +207,9 @@ FOREIGN KEY (Empleado)
 REFERENCES Empleado(Documento);
 
 CREATE TABLE Venta_Componente(
-IdVenCom VARCHAR(150) NOT NULL,
-RefComponente VARCHAR(150) NOT NULL,
-IdVenta VARCHAR(150) NOT NULL,
+IdVenCom INT NOT NULL,
+RefComponente INT NOT NULL,
+IdVenta INT NOT NULL,
 Cantidad INT NOT NULL,
 PRIMARY KEY (IdVenCom));
 
@@ -222,9 +222,9 @@ FOREIGN KEY (IdVenta)
 REFERENCES Venta(IdVenta);
 
 CREATE TABLE Venta_Accesorio(
-IdVenAcc VARCHAR(150) NOT NULL,
-RefAccesorio VARCHAR (150) NOT NULL,
-IdVenta VARCHAR(150) NOT NULL,
+IdVenAcc INT NOT NULL,
+RefAccesorio INT NOT NULL,
+IdVenta INT NOT NULL,
 Cantidad INT NOT NULL,
 PRIMARY KEY (IdVenAcc));
 
@@ -237,9 +237,9 @@ FOREIGN KEY (IdVenta)
 REFERENCES Venta(IdVenta);
 
 CREATE TABLE Venta_Bicleta(
-IdVenBi VARCHAR(150) NOT NULL,
-RefBicicleta VARCHAR(150) NOT NULL,
-IdVenta VARCHAR(150) NOT NULL,
+IdVenBi INT NOT NULL,
+RefBicicleta INT NOT NULL,
+IdVenta INT NOT NULL,
 Cantidad INT NOT NULL,
 PRIMARY KEY (IdVenBi));
 
@@ -252,9 +252,9 @@ FOREIGN KEY (IdVenta)
 REFERENCES Venta(IdVenta);
 
 CREATE TABLE Bicicleta_Componente(
-IdBiComp VARCHAR(150) NOT NULL,
-RefComponente VARCHAR(150) NOT NULL,
-RefBicicleta VARCHAR(150) NOT NULL,
+IdBiComp INT NOT NULL,
+RefComponente INT NOT NULL,
+RefBicicleta INT NOT NULL,
 Cantidad INT NOT NULL,
 PRIMARY KEY (IdBiComp));
 
@@ -266,3 +266,6 @@ ADD CONSTRAINT RefComponente2_fk
 FOREIGN KEY (RefComponente)
 REFERENCES Componente(Referencia);
 
+#Pandolfo. Hay que borrar la columna 'Valor_Total' de la tabla venta, agrego la sentencia correspondiente
+
+ALTER TABLE Venta DROP ValorTotal;
