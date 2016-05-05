@@ -10,19 +10,28 @@ ON Va.refaccesorio=Acc.referencia AND Vc.refcomponente=Com.referencia AND Vb.ref
 AND V.idventa=Va.idventa AND V.idventa=Vc.idventa AND V.idventa=Vb.idventa
 ;
 
+<<<<<<< HEAD
 #Juan7655. Versión modificada. Funciona mostrando Ingresos, Egresos y Ganancia (Ingresos - Egresos)
+=======
+#Juan7655Versión modificada. Funciona mostrando Ingresos, Egresos y Ganancia (Ingresos - Egresos)
+>>>>>>> refs/remotes/origin/master
 
 //Consulta 2
 
 SELECT MONTH(V.Fecha)Mes,(Tb.nombre)TipoMasVendido,(Vb.cantidad*Bi.precio)Ganancia
 FROM tipobicicleta Tb INNER JOIN bicicleta Bi INNER JOIN venta_bicleta Vb INNER JOIN venta V
 ON Tb.IdTipoBic=Bi.tipo AND Bi.referencia=Vb.refbicicleta AND V.idventa=Vb.idventa
+<<<<<<< HEAD
 WHERE Vb.cantidad*Bi.precio=(SELECT MAX(Vbb.cantidad*Bic.precio) 
+=======
+WHERE Vb.cantidad*Bi.precio=(SELECT MIN(Vbb.cantidad*Bic.precio) 
+>>>>>>> refs/remotes/origin/master
 FROM tipobicicleta T INNER JOIN bicicleta Bic INNER JOIN venta_bicleta Vbb INNER JOIN venta Ve
 ON T.IdTipoBic=Bic.tipo AND Bic.referencia=Vbb.refbicicleta AND Ve.idventa=Vbb.idventa
 WHERE MONTH(V.Fecha)=MONTH(Ve.Fecha))
 GROUP BY MONTH(V.Fecha);
 
+<<<<<<< HEAD
 #Anacleta. Funciona 
 
 /*Consulta 3*/
@@ -52,6 +61,19 @@ SELECT Emp.Nombre Empleado, COUNT(V.Empleado) Numero_Ventas
 FROM Empleado Emp
 INNER JOIN Venta V ON Emp.Documento = V.Empleado
 GROUP BY Empleado;
+=======
+#Anacleta. Funciona . Al menos con los datos que tenemos
+
+
+
+//Consulta 4
+SELECT E.Nombre, E.Documento, COUNT(V.Empleado) Numero_ventas,
+SUM(V.ValorTotal) Monto_vendido
+FROM empleado E INNER JOIN venta V 
+ON V.Empleado = E.Documento
+GROUP BY V.Empleado
+
+>>>>>>> refs/remotes/origin/master
 
 /*Consulta 5*/
 
@@ -64,6 +86,7 @@ INNER JOIN TipoBicicleta TipB ON Bici.Tipo = TipB.IdTipoBic
 				INNER JOIN Marca M ON Comp.Marca = M.IdMarca;
 #Pandolfo. Funciona bien, pero se podría ver mejor, además es sumamente sencillo.
 
+<<<<<<< HEAD
 //Consulta 6
 SELECT Nombre Cliente_Preferencial, Documento, max(Valor_comprado) Valor_comprado FROM
 (SELECT C.Nombre, C.Documento, SUM(ValorTotal) Valor_comprado
@@ -109,6 +132,8 @@ SELECT (M.Nombre)Marca, (SELECT COUNT(B.Marca) FROM Bicicleta B WHERE B.Marca=M.
 FROM Marca M;
 
 #Anacleta. Funciona
+=======
+>>>>>>> refs/remotes/origin/master
 //Consulta 9
 SELECT  A.Referencia, (TA.Nombre)Accesorio, (TA.Descripcion)Descripcion, A.Color
 FROM TipoAccesorio TA JOIN Accesorio A ON A.Tipo= TA.IdTipoAcc 
@@ -121,7 +146,10 @@ INSERT INTO Accesorio
 VALUES (12,2,'15000',0,10,'Rojo','Plástico',5,'NA',0);
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/master
 //Consulta 10
 SELECT (C.Nombre)Cliente, V.Fecha,(E.Nombre)Vendedor,(TB.Nombre)Bicicleta, (TA.Nombre)Accesorio, (TC.Nombre)Componente
 FROM Venta V INNER JOIN Cliente C INNER JOIN Empleado E 
