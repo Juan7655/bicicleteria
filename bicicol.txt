@@ -1,5 +1,5 @@
 CREATE DATABASE Bicicol;
-USE bicicol;
+USE Bicicol;
 
 
 CREATE TABLE Proveedor(
@@ -85,7 +85,7 @@ REFERENCES Accesorio(Referencia);
 CREATE TABLE TipoComponente(
 IdTipoCom VARCHAR(150) NOT NULL,
 Nombre VARCHAR(150)NOT NULL,
-Descripcion VARCHAR(150)
+Descripcion VARCHAR(150),
 PRIMARY KEY (IdTipoCom));
 #Anacleta
 
@@ -128,7 +128,7 @@ REFERENCES Componente(Referencia);
 CREATE TABLE TipoBicicleta(
 IdTipoBic VARCHAR(150) NOT NULL,
 Nombre VARCHAR(150)NOT NULL,
-Descripcion VARCHAR(150)
+Descripcion VARCHAR(150),
 PRIMARY KEY (IdTipoBic));
 #Anacleta
 
@@ -265,8 +265,4 @@ REFERENCES Bicicleta(Referencia),
 ADD CONSTRAINT RefComponente2_fk
 FOREIGN KEY (RefComponente)
 REFERENCES Componente(Referencia);
-
-#Pandolfo. Hay que borrar la columna 'Valor_Total' de la tabla venta, agrego la sentencia correspondiente
-
-ALTER TABLE Venta DROP ValorTotal;
 
