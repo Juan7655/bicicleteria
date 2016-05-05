@@ -1,5 +1,5 @@
 CREATE DATABASE Bicicol;
-USE bicicol;
+USE Bicicol;
 
 
 CREATE TABLE Proveedor(
