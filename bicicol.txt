@@ -127,7 +127,7 @@ REFERENCES Componente(Referencia);
 
 CREATE TABLE TipoBicicleta(
 IdTipoBic INT NOT NULL,
-Nombre VARCHAR(150) NOT NULL,
+Nombre VARCHAR(150)NOT NULL,
 Descripcion VARCHAR(150),
 PRIMARY KEY (IdTipoBic));
 #Anacleta
@@ -266,6 +266,5 @@ ADD CONSTRAINT RefComponente2_fk
 FOREIGN KEY (RefComponente)
 REFERENCES Componente(Referencia);
 
-#Pandolfo. Hay que borrar la columna 'Valor_Total' de la tabla venta, agrego la sentencia correspondiente
+#Pandolfo La wea funca
 
-ALTER TABLE Venta DROP ValorTotal;
