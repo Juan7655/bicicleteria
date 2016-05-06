@@ -1,0 +1,135 @@
+//Consulta 1
+
+SELECT(SUM(Va.Cantidad*Acc.precio)+SUM(Vc.Cantidad*Com.precio)+
+SUM(Vb.Cantidad*Bi.precio))Ingresos,(SELECT SUM(ValorTotal) FROM Compra)Egresos,
+((SUM(Va.Cantidad*Acc.precio)+SUM(Vc.Cantidad*Com.precio)+
+SUM(Vb.Cantidad*Bi.precio)) - (SELECT SUM(ValorTotal) FROM Compra)) Ganancia
+FROM Venta_Accesorio Va INNER JOIN Accesorio Acc INNER JOIN Venta V INNER JOIN Venta_Componente Vc
+INNER JOIN Componente Com INNER JOIN Venta_Bicleta Vb INNER JOIN Bicicleta Bi
+ON Va.refaccesorio=Acc.referencia AND Vc.refcomponente=Com.referencia AND Vb.refbicicleta=Bi.referencia
+AND V.idventa=Va.idventa AND V.idventa=Vc.idventa AND V.idventa=Vb.idventa
+;
+
+#Juan7655. Versión modificada. Funciona mostrando Ingresos, Egresos y Ganancia (Ingresos - Egresos)
+
+//Consulta 2
+
+SELECT MONTH(V.Fecha)Mes,(Tb.nombre)TipoMasVendido,(Vb.cantidad*Bi.precio)Ganancia
+FROM TipoBicicleta Tb INNER JOIN Bicicleta Bi INNER JOIN Venta_Bicleta Vb INNER JOIN Venta V
+ON Tb.IdTipoBic=Bi.tipo AND Bi.referencia=Vb.refbicicleta AND V.idventa=Vb.idventa
+WHERE Vb.cantidad*Bi.precio=(SELECT MAX(Vbb.cantidad*Bic.precio) 
+FROM Tipobicicleta T INNER JOIN Bicicleta Bic INNER JOIN Venta_Bicleta Vbb INNER JOIN Venta Ve
+ON T.IdTipoBic=Bic.tipo AND Bic.referencia=Vbb.refbicicleta AND Ve.idventa=Vbb.idventa
+WHERE MONTH(V.Fecha)=MONTH(Ve.Fecha))
+GROUP BY MONTH(V.Fecha);
+
+#Anacleta. Funciona 
+
+/*Consulta 3*/
+
+SELECT TipB.Nombre Tipo_Bici, SUM(VenB.Cantidad) UnidadesVendidas, MONTH(V.Fecha) Mes_Venta
+FROM Bicicleta Bici
+INNER JOIN TipoBicicleta TipB ON Bici.Tipo = TipB.IdTipoBic
+INNER JOIN Venta_Bicleta VenB INNER JOIN Venta V ON Bici.Referencia = VenB.RefBicicleta AND VenB.IdVenta = V.IdVenta
+WHERE TipB.Nombre = (
+
+	SELECT tablita.Tipo 
+	FROM (
+		SELECT tabla.Tipo_Bici Tipo,MAX(tabla.UnidadesVendidas) 
+			FROM (SELECT TipoBicicleta.Nombre Tipo_Bici, SUM(Venta_Bicleta.Cantidad) UnidadesVendidas, Venta.Fecha Fecha_Venta
+				FROM Bicicleta
+				INNER JOIN TipoBicicleta ON Bicicleta.Tipo = TipoBicicleta.IdTipoBic
+				INNER JOIN Venta_Bicleta ON Bicicleta.Referencia = Venta_Bicleta.RefBicicleta
+				INNER JOIN Venta ON Venta_Bicleta.IdVenta = Venta.IdVenta
+				GROUP BY Tipo_Bici) tabla) tablita
+	 )
+GROUP BY Mes_Venta;
+#Pandolfo. Muestra el mes y la cantidad de ventas de ese mes, aún se puede mejorar añadiendo un calificador, y que muestre también el año
+
+/*Consulta 4*/
+
+SELECT Emp.Nombre Empleado, COUNT(V.Empleado) Numero_Ventas
+FROM Empleado Emp
+INNER JOIN Venta V ON Emp.Documento = V.Empleado
+GROUP BY Empleado;
+
+/*Consulta 5*/
+
+SELECT Bici.Referencia Ref, TipB.nombre Tipo_Bici, BiciComp.RefComponente , TipC.Nombre Nom_Componente, M.Nombre Marca
+FROM Bicicleta Bici
+INNER JOIN TipoBicicleta TipB ON Bici.Tipo = TipB.IdTipoBic
+	INNER JOIN Bicicleta_Componente BiciComp ON Bici.Referencia = BiciComp.RefBicicleta
+		INNER JOIN Componente Comp ON BiciComp.RefComponente = Comp.Referencia
+			INNER JOIN TipoComponente TipC ON Comp.Referencia = TipC.IdTipoCom
+				INNER JOIN Marca M ON Comp.Marca = M.IdMarca;
+#Pandolfo. Funciona bien, pero se podría ver mejor, además es sumamente sencillo.
+
+//Consulta 6
+SELECT Nombre Cliente_Preferencial, Documento, max(Valor_comprado) Valor_comprado FROM
+(SELECT C.Nombre, C.Documento, SUM(ValorTotal) Valor_comprado
+FROM Cliente C INNER JOIN Venta V ON C.Documento = V.Cliente Group By C.Documento) Cliente_compra;
+#Juan7655 Hasta el momento no presenta inconsistencias, aunque por falta de datos en la parte de Valores de compra, 
+#no se puede probar correctamente.
+
+/*Consulta 6*/
+
+SELECT M.Nombre Marca, TipC.Nombre 'Tipo Componente', Comp.Precio Precio
+FROM Componente Comp
+INNER JOIN Marca M INNER JOIN TipoComponente TipC ON Comp.Marca = M.IdMarca AND Comp.Tipo = TipC.IdTipoCom
+WHERE Precio = (SELECT MIN(Precio) FROM Componente) ;
+#Pandolfo
+
+//Consulta 7
+
+SELECT (Cl.nombre)Nombre,(SUM(Va.Cantidad*Acc.precio)+SUM(Vc.Cantidad*Com.precio)+
+SUM(Vb.Cantidad*Bi.precio))'Dinero Gastado',CASE WHEN (SUM(Va.Cantidad*Acc.precio)+SUM(Vc.Cantidad*Com.precio)+
+SUM(Vb.Cantidad*Bi.precio))>(SELECT AVG(VV) FROM (SELECT (SUM(Vaa.Cantidad*Ac.precio)+SUM(Vcc.Cantidad*Comm.precio)+
+SUM(Vbb.Cantidad*Bii.precio)) AS VV
+FROM Venta_Accesorio Vaa INNER JOIN Accesorio Ac INNER JOIN Venta Ve INNER JOIN Cliente Cll INNER JOIN Venta_Componente Vcc
+INNER JOIN Componente Comm INNER JOIN Venta_Bicleta Vbb INNER JOIN Bicicleta Bii
+ON Vaa.refaccesorio=Ac.referencia AND Vcc.refcomponente=Comm.referencia AND Vbb.refbicicleta=Bii.referencia
+AND Ve.idventa=Vaa.idventa AND Ve.idventa=Vcc.idventa AND Ve.idventa=Vbb.idventa AND Ve.Cliente=Cll.Documento
+GROUP BY Cll.Documento)TAB)THEN 'Cliente Premium' ELSE 'Cliente Normal' END TipoCliente
+FROM Venta_Accesorio Va INNER JOIN Accesorio Acc INNER JOIN Venta V INNER JOIN Cliente Cl INNER JOIN Venta_Componente Vc
+INNER JOIN Componente Com INNER JOIN Venta_Bicleta Vb INNER JOIN Bicicleta Bi
+ON Va.refaccesorio=Acc.referencia AND Vc.refcomponente=Com.referencia AND Vb.refbicicleta=Bi.referencia
+AND V.idventa=Va.idventa AND V.idventa=Vc.idventa AND V.idventa=Vb.idventa AND V.Cliente=Cl.documento
+GROUP BY Cl.Documento;
+#Anacleta. Funciona
+
+//Consulta 8
+SELECT (M.Nombre)Marca, (SELECT COUNT(B.Marca) FROM Bicicleta B WHERE B.Marca=M.IdMarca)Bicicletas,
+(SELECT COUNT(A.Marca) FROM Accesorio A WHERE A.Marca=M.IdMarca)Componentes,
+(SELECT COUNT(C.Marca) FROM Componente C WHERE C.Marca=M.IdMarca)Accesorios,
+100.0*((SELECT COUNT(B.Marca) FROM Bicicleta B WHERE B.Marca=M.IdMarca)+
+(SELECT COUNT(A.Marca) FROM Accesorio A WHERE A.Marca=M.IdMarca)+
+(SELECT COUNT(C.Marca) FROM Componente C WHERE C.Marca=M.IdMarca))/(((SELECT COUNT(B.Marca) FROM Bicicleta B )+
+(SELECT COUNT(A.Marca) FROM Accesorio A )+
+(SELECT COUNT(C.Marca) FROM Componente C)))'% del Total'
+FROM Marca M;
+
+#Anacleta. Funciona
+//Consulta 9
+SELECT  A.Referencia, (TA.Nombre)Accesorio, (TA.Descripcion)Descripcion, A.Color
+FROM TipoAccesorio TA JOIN Accesorio A ON A.Tipo= TA.IdTipoAcc 
+LEFT OUTER JOIN venta_accesorio VA 
+ON VA.RefAccesorio= A.Referencia 
+WHERE VA.RefAccesorio is NULL;
+
+#Este es el registro que coloque para que saliera algún accesorio que no se ha vendido:
+INSERT INTO Accesorio
+VALUES (12,2,'15000',0,10,'Rojo','Plástico',5,'NA',0);
+
+
+
+//Consulta 10
+SELECT (C.Nombre)Cliente, V.Fecha,(E.Nombre)Vendedor,(TB.Nombre)Bicicleta, (TA.Nombre)Accesorio, (TC.Nombre)Componente
+FROM Venta V INNER JOIN Cliente C INNER JOIN Empleado E 
+INNER JOIN Venta_Bicleta VB INNER JOIN Bicicleta B INNER JOIN TipoBicicleta TB
+INNER JOIN Venta_Accesorio VA INNER JOIN Accesorio A INNER JOIN TipoAccesorio TA 
+INNER JOIN Venta_Componente VC INNER JOIN Componente Co INNER JOIN TipoComponente TC
+ON V.Cliente=C.Documento AND E.Documento= V.Empleado AND VB.IdVenta= V.IdVenta AND 
+B.Referencia= VB.RefBicicleta AND TB.IdTipoBic= B.Tipo  AND VA.IdVenta= V.IdVenta AND
+A.Referencia= VA.RefAccesorio AND TA.IdTipoAcc= A.Tipo  AND VC.IdVenta= V.IdVenta AND 
+Co.Referencia= VC.RefComponente AND TC.IdTipoCom= Co.Tipo
+ORDER BY C.Nombre, E.Nombre, TB.Nombre, TA.Nombre, TC.Nombre;
