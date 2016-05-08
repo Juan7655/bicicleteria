@@ -13,12 +13,12 @@ import java.util.logging.Logger;
  *
  * @author JuanDavid
  */
-public class Database1 {
+public class Database {
 
     private Connection conn;
     private String DBName;
 
-    public Database1() {
+    public Database() {
     }
 
     /**
@@ -80,10 +80,10 @@ public class Database1 {
     public void getConnection() throws Exception {
         try {
             String driver = "com.mysql.jdbc.Driver";
-            //Esta opciÃ³n es para la base de datos local
+            //Esta opcion es para la base de datos local
             //String url = "jdbc:mysql://127.0.0.1:3306";
 
-            //Esta opciÃ³n es para la Base de datos en Google SQL Cloud
+            //Esta opcion es para la Base de datos en Google SQL Cloud
             String url = "jdbc:mysql://104.196.97.175:3306";
             String username = "root";
             String password = "1234";
