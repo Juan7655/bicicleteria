@@ -49,7 +49,16 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
     }
 
     private void llenar() {
-
+        
+        //Limpiar Combobox
+        
+        this.cbMarca.removeAllItems();
+        this.cbMarcaA.removeAllItems();
+        this.cbMarcaC.removeAllItems();
+        this.cbTipo.removeAllItems();
+        this.cbTipoA.removeAllItems();
+        this.cbTipoC.removeAllItems();
+        
         con.llenarcbTipoB(modelCTipoB);
         con.llenarcbMarca(modelCMarca);
         con.llenarcbMarcaC(modelCMarcaC);
@@ -126,8 +135,8 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
         } else {
 
             String datos;
-            int tipo = con.getPrimaryKey("tipobicicleta", this.cbTipo.getSelectedItem().toString());
-            int marca = con.getPrimaryKey("marca", this.cbMarca.getSelectedItem().toString());
+            int tipo = con.getPrimaryKey("TipoBicicleta", this.cbTipo.getSelectedItem().toString());
+            int marca = con.getPrimaryKey("Marca", this.cbMarca.getSelectedItem().toString());
             datos = this.txtPrecio.getText() + ","
                     + tipo + ","
                     + "'" + this.cbTallaB.getSelectedItem().toString() + "'" + ","
@@ -136,7 +145,7 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
                     + marca + ","
                     + this.txtGarantia.getText();
             try{
-            con.post("bicicleta", datos);
+            con.post("Bicicleta", datos);
             System.out.println(datos);
             } catch(Exception ex){
                 JOptionPane.showMessageDialog(null, "ERROR "+ex);
@@ -164,8 +173,8 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
                 carac = this.txtCaraA.getText();
             }
             String datos;
-            int tipo = con.getPrimaryKey("tipoaccesorio", this.cbTipoA.getSelectedItem().toString());
-            int marca = con.getPrimaryKey("marca", this.cbMarcaA.getSelectedItem().toString());
+            int tipo = con.getPrimaryKey("TipoAccesorio", this.cbTipoA.getSelectedItem().toString());
+            int marca = con.getPrimaryKey("Marca", this.cbMarcaA.getSelectedItem().toString());
             datos = tipo + ","
                     + this.txtPrecioA.getText() + ","
                     + this.txtVendidasA.getText() + ","
@@ -176,7 +185,7 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
                     + "'" + carac + "'" + ","
                     + this.txtGarantiaA.getText();
 
-            con.post("accesorio", datos);
+            con.post("Accesorio", datos);
             System.out.println(datos);
         }
     }
@@ -191,8 +200,8 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
             JOptionPane.showMessageDialog(null, "Precio Incorrecto");
         } else {
             String datos;
-            int tipo = con.getPrimaryKey("tipocomponente", this.cbTipoC.getSelectedItem().toString());
-            int marca = con.getPrimaryKey("marca", this.cbMarcaC.getSelectedItem().toString());
+            int tipo = con.getPrimaryKey("TipoComponente", this.cbTipoC.getSelectedItem().toString());
+            int marca = con.getPrimaryKey("Marca", this.cbMarcaC.getSelectedItem().toString());
 
             datos = marca + ","
                     + "'" + this.cbMaterialC.getSelectedItem().toString() + "',"
@@ -204,7 +213,7 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
                     + tipo + ","
                     + "'" + this.txtCarC.getText() + "'";
 
-            con.post("componente", datos);
+            con.post("Componente", datos);
             System.out.println(datos);
         }
 
@@ -242,7 +251,7 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
                 desc = "NA";
             }
             String datos = "'" + nomb + "','" + desc + "'";
-            con.post("tipobicicleta", datos);
+            con.post("TipoBicicleta", datos);
             this.llenar();
         }
     }
@@ -257,7 +266,7 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
                 desc = "NA";
             }
             String datos = "'" + nomb + "','" + desc + "'";
-            con.post("tipocomponente", datos);
+            con.post("TipoComponente", datos);
             this.llenar();
         }
     }
@@ -272,7 +281,7 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
                 desc = "NA";
             }
             String datos = "'" + nomb + "','" + desc + "'";
-            con.post("tipoaccesorio", datos);
+            con.post("TipoAccesorio", datos);
             this.llenar();
         }
     }
@@ -288,7 +297,8 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
                 desc = "NA";
             }
             String datos = "'" + nomb + "','" + desc + "'";
-            con.post("marca", datos);
+            con.post("Marca", datos);
+            
             this.llenar();
         }
     }

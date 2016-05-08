@@ -27,7 +27,7 @@ public class Principal extends javax.swing.JFrame {
      private void ponerImagen() {
       
         Toolkit tk = Toolkit.getDefaultToolkit();
-        String ruta = "./_data/bicicol_logo.png";
+        String ruta = "./_data/Bicicol.png";
         Image imagen = tk.createImage(ruta);
         logo.setIcon(new ImageIcon(imagen.getScaledInstance(logo.getWidth(), logo.getHeight(), Image.SCALE_AREA_AVERAGING)));
         
