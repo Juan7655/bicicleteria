@@ -154,7 +154,7 @@ public class Database {
             posted = conn.prepareStatement("SELECT " + atributo + " FROM " + entidad
                     + " WHERE " + atributo + " = '" + valor + "';");
             result = posted.executeQuery();
-            return result.wasNull();
+            return result.next();
         } catch (Exception ex) {
             System.out.println("Error: " + ex);
         }
