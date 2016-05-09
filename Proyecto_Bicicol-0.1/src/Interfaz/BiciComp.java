@@ -58,7 +58,7 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
 
         if (this.dist == false) {
             this.tabbed.setSelectedIndex(1);
-            // this.tabbed.setEnabledAt(0, false);
+            this.tabbed.setEnabledAt(0, false);
         }
 
     }
@@ -69,10 +69,10 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
         tabla1.setRowSorter(ordena);
 
         String select = "Referencia, T.Nombre, M.Nombre, Material, Precio";
-        String condicion = "INNER JOIN Marca M ON componente.marca = M.idMarca "
-                + "INNER JOIN Tipocomponente T ON componente.tipo = T.idTipoCom";
+        String condicion = "INNER JOIN Marca M ON Componente.Marca = M.IdMarca "
+                + "INNER JOIN TipoComponente T ON Componente.Tipo = T.IdTipoCom";
 
-        con.llenarTabla(select, "componente", colum.length, modeloTabla1, condicion);
+        con.llenarTabla(select, "Componente", colum.length, modeloTabla1, condicion);
 
     }
 
@@ -81,12 +81,12 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
         TableRowSorter<TableModel> ordena = new TableRowSorter<TableModel>(tabla2.getModel());
         tabla2.setRowSorter(ordena);
 
-        String select = "referencia, T.Nombre, M.Nombre, Material, Precio, BC.Cantidad";
-        String condicion = "INNER JOIN Marca M ON componente.marca = M.idMarca "
-                + "INNER JOIN Tipocomponente T ON componente.tipo = T.idTipoCom "
-                + "INNER JOIN bicicleta_componente  BC ON componente.referencia = BC.RefComponente "
-                + "WHERE BC.RefBicicleta = " + con.getLastPk("bicicleta");
-        con.llenarTabla(select, "componente", 6, modeloTabla2, condicion);
+        String select = "Referencia, T.Nombre, M.Nombre, Material, Precio, BC.Cantidad";
+        String condicion = "INNER JOIN Marca M ON Componente.Marca = M.IdMarca "
+                + "INNER JOIN TipoComponente T ON Componente.Tipo = T.IdTipoCom "
+                + "INNER JOIN Bicicleta_Componente  BC ON Componente.Referencia = BC.RefComponente "
+                + "WHERE BC.RefBicicleta = " + con.getLastPk("Bicicleta");
+        con.llenarTabla(select, "Componente", 6, modeloTabla2, condicion);
 
     }
 
@@ -96,11 +96,11 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
         tabla1b.setRowSorter(ordena);
 
         String select = "Referencia, M.Nombre, T.Nombre, Talla, Precio";
-        String condicion = "INNER JOIN Marca M ON bicicleta.marca = M.idMarca "
-                + "INNER JOIN TipoBicicleta T ON bicicleta.tipo = T.idTipoBic "
+        String condicion = "INNER JOIN Marca M ON Bicicleta.Marca = M.IdMarca "
+                + "INNER JOIN TipoBicicleta T ON Bicicleta.Tipo = T.IdTipoBic "
                 + "ORDER By Referencia ASC";
 
-        con.llenarTabla(select, "bicicleta", 5, modeloTabla1b, condicion);
+        con.llenarTabla(select, "Bicicleta", 5, modeloTabla1b, condicion);
     }
 
     private void llenarTabla2b() {
@@ -109,10 +109,10 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
         tabla2b.setRowSorter(ordena);
 
         String select = "Referencia, T.Nombre, M.Nombre, Material, Precio";
-        String condicion = "INNER JOIN Marca M ON componente.marca = M.idMarca "
-                + "INNER JOIN Tipocomponente T ON componente.tipo = T.idTipoCom ";
+        String condicion = "INNER JOIN Marca M ON Componente.Marca = M.IdMarca "
+                + "INNER JOIN TipoComponente T ON Componente.Tipo = T.IdTipoCom ";
 
-        con.llenarTabla(select, "componente", 5, modeloTabla2b, condicion);
+        con.llenarTabla(select, "Componente", 5, modeloTabla2b, condicion);
     }
 
     private void llenarTabla3b(String idBic) {
@@ -120,13 +120,13 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
         TableRowSorter<TableModel> ordena = new TableRowSorter<TableModel>(tabla3b.getModel());
         tabla3b.setRowSorter(ordena);
 
-        String select = "referencia, M.Nombre, T.Nombre, Material, Precio, BC.Cantidad";
-        String condicion = "INNER JOIN Marca M ON componente.marca = M.idMarca "
-                + "INNER JOIN Tipocomponente T ON componente.tipo = T.idTipoCom "
-                + "INNER JOIN bicicleta_componente  BC ON componente.referencia = BC.RefComponente "
+        String select = "Referencia, M.Nombre, T.Nombre, Material, Precio, BC.Cantidad";
+        String condicion = "INNER JOIN Marca M ON Componente.Marca = M.IdMarca "
+                + "INNER JOIN TipoComponente T ON Componente.Tipo = T.IdTipoCom "
+                + "INNER JOIN Bicicleta_Componente  BC ON Componente.Referencia = BC.RefComponente "
                 + "WHERE BC.RefBicicleta = " + idBic + " "
-                + "ORDER By referencia ASC";
-        con.llenarTabla(select, "componente", 6, modeloTabla3b, condicion);
+                + "ORDER By Referencia ASC";
+        con.llenarTabla(select, "Componente", 6, modeloTabla3b, condicion);
 
     }
 
@@ -145,14 +145,14 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
         } else {
 
             int idComp = (int) tabla1.getValueAt(index, 0);
-            int idBici = con.getLastPk("bicicleta");
+            int idBici = con.getLastPk("Bicicleta");
             try {
                 Integer cant = Integer.parseInt(JOptionPane.showInputDialog("Ingrese cantidad:"));
                 if (cant.toString().equals("")) {
                     cant = 1;
                 }
                 String datos = idComp + "," + idBici + "," + cant;
-                con.post("bicicleta_componente", datos);
+                con.post("Bicicleta_Componente", datos);
 
                 this.tabla1.setRowSelectionAllowed(false);
                 this.clearTable(tabla2, modeloTabla2);
@@ -185,7 +185,7 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
                     cant = 1;
                 }
                 String datos = idComp + "," + idBici + "," + cant;
-                con.post("bicicleta_componente", datos);
+                con.post("Bicicleta_Componente", datos);
 
                 this.clearTable(tabla3b, modeloTabla3b);
 
@@ -209,8 +209,8 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
         } else {
 
             String cid = tabla2.getValueAt(index, 0).toString();
-            int bid = con.getLastPk("bicicleta");
-            con.delete("bicicleta_componente", cid, bid);
+            int bid = con.getLastPk("Bicicleta");
+            con.delete("Bicicleta_Componente", cid, bid);
 
             this.clearTable(tabla2, modeloTabla2);
             this.llenarTabla2();
@@ -229,7 +229,7 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
 
             String cid = tabla3b.getValueAt(index, 0).toString();
             String bid = tabla1b.getValueAt(index2, 0).toString();
-            con.delete("bicicleta_componente", cid, Integer.parseInt(bid));
+            con.delete("Bicicleta_Componente", cid, Integer.parseInt(bid));
 
             this.clearTable(tabla3b, modeloTabla3b);
             this.llenarTabla3b(bid);

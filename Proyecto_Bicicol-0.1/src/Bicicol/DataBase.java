@@ -23,6 +23,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class DataBase {
 
+    private String DBName;
+
     public DataBase() {
 
     }
@@ -34,26 +36,33 @@ public class DataBase {
             String driver = "com.mysql.jdbc.Driver";
 
             //Esta opción es para la base de datos local
-            String url = "jdbc:mysql://127.0.0.1:3306/bicicol";
-
+            //String url = "jdbc:mysql://127.0.0.1:3306/";
+            
+            //String url = "jdbc:mysql://104.196.97.175:3306";
             //Esta opción es para la Base de datos en Google SQL Cloud
-            // String url = "jdbc:mysql://104.196.97.175:3306";
+            String url = "jdbc:mysql://104.196.97.175:3306";
             String username = "root";
-            String password = "OscarSQL4596";
+            String password = "OZKR";
             Class.forName(driver);
             Connection conn = DriverManager.getConnection(url, username, password);
+            
+
+            DBName = "Bicicol";
+
             System.out.println("Connected");
+
             return conn;
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println("Not connected: " + e);
         }
+
         return null;
     }
 
     public void post(String tabla, String datos) {
 
         try (Connection conn = getConnection()) {
-            PreparedStatement posted = conn.prepareStatement("USE bicicol");
+            PreparedStatement posted = conn.prepareStatement("USE " + DBName + ";");
             posted.executeUpdate();
 
             String valores = getPrimarykeyDisp(tabla) + "," + datos;
@@ -72,10 +81,12 @@ public class DataBase {
 
     public void delete(String tabla, String cId, int bId) {
         try (Connection conn = getConnection()) {
+            PreparedStatement posted = conn.prepareStatement("USE " + DBName + ";");
+            posted.executeUpdate();
 
             String sql = "SELECT column_name "
                     + "FROM information_schema.columns "
-                    + "WHERE table_schema = 'bicicol' AND table_name='" + tabla + "';";
+                    + "WHERE table_schema = 'Bicicol' AND table_name='" + tabla + "';";
 
             PreparedStatement getNPk = conn.prepareStatement(sql);
             System.out.println("Preparé el statment");
@@ -91,14 +102,14 @@ public class DataBase {
             String idBici = nomId.getString(1);
             System.out.println(idComp);
             System.out.println(idBici);
-            
-            String query = "DELETE FROM " + tabla + " WHERE " + idComp + " = " + cId + " AND " + idBici + " = " +bId+ ";";
+
+            String query = "DELETE FROM " + tabla + " WHERE " + idComp + " = " + cId + " AND " + idBici + " = " + bId + ";";
 
             PreparedStatement deleted = conn.prepareStatement(query);
             deleted.executeUpdate();
-            
+
             JOptionPane.showMessageDialog(null, "Eliminación exitosa");
-            
+
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -109,10 +120,11 @@ public class DataBase {
 
         int pk = 1;
         try (Connection con = getConnection()) {
-
+            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
+            posted.executeUpdate();
             String sql = "SELECT column_name "
                     + "FROM information_schema.columns "
-                    + "WHERE table_schema = 'bicicol' AND table_name='" + tabla + "';";
+                    + "WHERE table_schema = 'Bicicol' AND table_name='" + tabla + "';";
 
             PreparedStatement getNPk = con.prepareStatement(sql);
             ResultSet nomId = getNPk.executeQuery();
@@ -144,10 +156,12 @@ public class DataBase {
         int pk = 1;
 
         try (Connection con = getConnection()) {
+            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
+            posted.executeUpdate();
 
             String sql = "SELECT column_name "
                     + "FROM information_schema.columns "
-                    + "WHERE table_schema = 'bicicol' AND table_name='" + tabla + "';";
+                    + "WHERE table_schema = 'Bicicol' AND table_name='" + tabla + "';";
 
             PreparedStatement getNPk = con.prepareStatement(sql);
             ResultSet nomId = getNPk.executeQuery();
@@ -179,10 +193,11 @@ public class DataBase {
         int pk = 1;
 
         try (Connection con = getConnection()) {
-
+            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
+            posted.executeUpdate();
             String sql = "SELECT column_name "
                     + "FROM information_schema.columns "
-                    + "WHERE table_schema = 'bicicol' AND table_name='" + nTabla + "';";
+                    + "WHERE table_schema = 'Bicicol' AND table_name='" + nTabla + "';";
 
             PreparedStatement getNPk = con.prepareStatement(sql);
             ResultSet nomId = getNPk.executeQuery();
@@ -214,6 +229,8 @@ public class DataBase {
 
         try (Connection con = getConnection()) {
 
+            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
+            posted.executeUpdate();
             String sql = "SELECT " + select + " FROM " + tabla + " " + condicion + ";";
 
             PreparedStatement verTab = con.prepareStatement(sql);
@@ -240,7 +257,9 @@ public class DataBase {
 
         try (Connection con = getConnection()) {
 
-            String sql = "SELECT * FROM tipobicicleta;";
+            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
+            posted.executeUpdate();
+            String sql = "SELECT * FROM TipoBicicleta;";
 
             PreparedStatement verTipos = con.prepareStatement(sql);
             ResultSet ver = verTipos.executeQuery();
@@ -260,7 +279,9 @@ public class DataBase {
     public void llenarcbMarca(DefaultComboBoxModel modelCMarca) {
 
         try (Connection con = getConnection()) {
-            String sql = "SELECT * FROM marca;";
+            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
+            posted.executeUpdate();
+            String sql = "SELECT * FROM Marca;";
             PreparedStatement verMarca = con.prepareStatement(sql);
             ResultSet ver = verMarca.executeQuery();
 
@@ -279,7 +300,9 @@ public class DataBase {
     public void llenarcbMarcaC(DefaultComboBoxModel modelCMarcaC) {
 
         try (Connection con = getConnection()) {
-            String sql = "SELECT * FROM marca;";
+            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
+            posted.executeUpdate();
+            String sql = "SELECT * FROM Marca;";
             PreparedStatement verMarca = con.prepareStatement(sql);
             ResultSet ver = verMarca.executeQuery();
 
@@ -297,7 +320,9 @@ public class DataBase {
     public void llenarcbTipoC(DefaultComboBoxModel modelCTipoC) {
 
         try (Connection con = getConnection()) {
-            String sql = "SELECT * FROM tipocomponente;";
+            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
+            posted.executeUpdate();
+            String sql = "SELECT * FROM TipoComponente;";
             PreparedStatement verTipos = con.prepareStatement(sql);
             ResultSet ver = verTipos.executeQuery();
 
@@ -315,7 +340,9 @@ public class DataBase {
     public void llenarcbTipoA(DefaultComboBoxModel modelCTipoA) {
 
         try (Connection con = getConnection()) {
-            String sql = "SELECT * FROM tipoaccesorio;";
+            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
+            posted.executeUpdate();
+            String sql = "SELECT * FROM TipoAccesorio;";
             PreparedStatement verTipos = con.prepareStatement(sql);
             ResultSet ver = verTipos.executeQuery();
 
@@ -334,7 +361,9 @@ public class DataBase {
     public void llenarcbMarcaA(DefaultComboBoxModel modelCMarcaA) {
 
         try (Connection con = getConnection()) {
-            String sql = "SELECT * FROM marca;";
+            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
+            posted.executeUpdate();
+            String sql = "SELECT * FROM Marca;";
             PreparedStatement verMarca = con.prepareStatement(sql);
             ResultSet ver = verMarca.executeQuery();
 
