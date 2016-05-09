@@ -1,8 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
 package Interfaz;
 
 import java.awt.Image;
@@ -12,12 +9,29 @@ import javax.swing.ImageIcon;
 /**
  *
  * @author OscarLopez
+ * @author Juan David Rodríguez
+ * 
  */
 public class Principal extends javax.swing.JFrame {
 
     /**
      * Creates new form Principal
      */
+    
+     public static void main(String args[]) {
+     
+    new Principal();
+        
+    }
+    
+     private void ponerImagen() {
+      
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        String ruta = "./_data/Bicicol.png";
+        Image imagen = tk.createImage(ruta);
+        logo.setIcon(new ImageIcon(imagen.getScaledInstance(logo.getWidth(), logo.getHeight(), Image.SCALE_AREA_AVERAGING)));
+        
+    }
     public Principal() {
         initComponents();
         this.setVisible(true);
@@ -174,11 +188,7 @@ public class Principal extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-     
-    new Principal();
-        
-    }
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add;
@@ -190,12 +200,5 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton ver;
     // End of variables declaration//GEN-END:variables
 
-    private void ponerImagen() {
-      
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        String ruta = "./_data/bicicol_logo.png";
-        Image imagen = tk.createImage(ruta);
-        logo.setIcon(new ImageIcon(imagen.getScaledInstance(logo.getWidth(), logo.getHeight(), Image.SCALE_AREA_AVERAGING)));
-        
-    }
+   
 }
