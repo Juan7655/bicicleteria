@@ -18,7 +18,7 @@ SELECT MONTH(V.Fecha)Mes,(Tb.nombre)TipoMasVendido,(Vb.cantidad*Bi.precio)Gananc
 FROM TipoBicicleta Tb INNER JOIN Bicicleta Bi INNER JOIN Venta_Bicleta Vb INNER JOIN Venta V
 ON Tb.IdTipoBic=Bi.tipo AND Bi.referencia=Vb.refbicicleta AND V.idventa=Vb.idventa
 WHERE Vb.cantidad*Bi.precio=(SELECT MAX(Vbb.cantidad*Bic.precio) 
-FROM Tipobicicleta T INNER JOIN Bicicleta Bic INNER JOIN Venta_Bicleta Vbb INNER JOIN Venta Ve
+FROM TipoBicicleta T INNER JOIN Bicicleta Bic INNER JOIN Venta_Bicleta Vbb INNER JOIN Venta Ve
 ON T.IdTipoBic=Bic.tipo AND Bic.referencia=Vbb.refbicicleta AND Ve.idventa=Vbb.idventa
 WHERE MONTH(V.Fecha)=MONTH(Ve.Fecha))
 GROUP BY MONTH(V.Fecha);
@@ -112,15 +112,9 @@ FROM Marca M;
 //Consulta 9
 SELECT  A.Referencia, (TA.Nombre)Accesorio, (TA.Descripcion)Descripcion, A.Color
 FROM TipoAccesorio TA JOIN Accesorio A ON A.Tipo= TA.IdTipoAcc 
-LEFT OUTER JOIN venta_accesorio VA 
+LEFT OUTER JOIN Venta_Accesorio VA 
 ON VA.RefAccesorio= A.Referencia 
 WHERE VA.RefAccesorio is NULL;
-
-#Este es el registro que coloque para que saliera algún accesorio que no se ha vendido:
-INSERT INTO Accesorio
-VALUES (12,2,'15000',0,10,'Rojo','Plástico',5,'NA',0);
-
-
 
 //Consulta 10
 SELECT (C.Nombre)Cliente, V.Fecha,(E.Nombre)Vendedor,(TB.Nombre)Bicicleta, (TA.Nombre)Accesorio, (TC.Nombre)Componente
