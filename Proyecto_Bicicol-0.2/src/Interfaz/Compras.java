@@ -251,6 +251,9 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
     private boolean verificar(int Ref, int Cantidad, String item) {
 
         boolean ok = true;
+        Compra_Bici bici;
+        Compra_Comp comp;
+        Compra_Acc acc;
         for (int i = 0; i < this.modeloCarrito.getRowCount(); i++) {
             if (this.modeloCarrito.getValueAt(i, 0).equals(Ref) && this.modeloCarrito.getValueAt(i, 1).equals(item)) {
 
@@ -259,6 +262,28 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
                         * (Float.parseFloat(this.modeloCarrito.getValueAt(i, 3).toString()));
 
                 this.modeloCarrito.setValueAt(total, i, 5);
+
+                if (item.equals("Bicicleta")) {
+                    for (int j = 0; j < Bicicletas.size(); j++) {
+                        bici = Bicicletas.get(j);
+                        bici.setCantidad(Cantidad);
+                        System.out.println("Bici setted");
+                    }
+                }
+                if (item.equals("Componente")) {
+                    for (int j = 0; j < Componentes.size(); j++) {
+                        comp = Componentes.get(j);
+                        comp.setCantidad(Cantidad);
+                        System.out.println("Comp setted");
+                    }
+                }
+                if (item.equals("Accesorio")) {
+                    for (int j = 0; j < Accesorios.size(); j++) {
+                        acc = Accesorios.get(j);
+                        acc.setCantidad(Cantidad);
+                        System.out.println("Acc setted");
+                    }
+                }
 
                 ok = false;
 
@@ -898,6 +923,10 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         int index = this.tbCarrito.getSelectedRow();
+        Compra_Bici bici;
+        Compra_Comp comp;
+        Compra_Acc acc;
+        String item = this.modeloCarrito.getValueAt(index, 1).toString();
         try {
             if (index < 0) {
                 JOptionPane.showMessageDialog(null, "Seleccione el registro a modificar");
@@ -908,12 +937,32 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
                         * (Float.parseFloat(this.modeloCarrito.getValueAt(index, 3).toString()));
 
                 this.modeloCarrito.setValueAt(total, index, 5);
-                this.precioTotal();
+                if (item.equals("Bicicleta")) {
+                    for (int j = 0; j < Bicicletas.size(); j++) {
+                        bici = Bicicletas.get(j);
+                        bici.setCantidad(cant);
+                        System.out.println("Bici setted");
+                    }
+                }
+                if (item.equals("Componente")) {
+                    for (int j = 0; j < Componentes.size(); j++) {
+                        comp = Componentes.get(j);
+                        comp.setCantidad(cant);
+                        System.out.println("Comp setted");
+                    }
+                }
+                if (item.equals("Accesorio")) {
+                    for (int j = 0; j < Accesorios.size(); j++) {
+                        acc = Accesorios.get(j);
+                        acc.setCantidad(cant);
+                        System.out.println("Acc setted");
+                    }
+                    this.precioTotal();
+                }
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Ingreso inválido");
         }
-
 
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
