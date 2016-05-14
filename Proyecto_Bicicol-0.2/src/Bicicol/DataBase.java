@@ -447,7 +447,7 @@ public class DataBase {
             PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
             posted.executeUpdate();
 
-            String sql = "SELECT" + select + " FROM " + tabla + " " + condicion + ";";
+            String sql = "SELECT " + select + " FROM " + tabla + " " + condicion + ";";
             PreparedStatement verProv = con.prepareStatement(sql);
             ver = verProv.executeQuery();
 
@@ -488,7 +488,7 @@ public class DataBase {
             PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
             posted.executeUpdate();
 
-            String sql = "SELECT" + select + " FROM " + tabla + " " + condicion + ";";
+            String sql = "SELECT " + select + " FROM " + tabla + " " + condicion + ";";
             PreparedStatement verProv = con.prepareStatement(sql);
             ResultSet ver = verProv.executeQuery();
 

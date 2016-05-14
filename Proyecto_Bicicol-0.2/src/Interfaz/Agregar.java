@@ -18,13 +18,10 @@ import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
-
-
 public class Agregar extends javax.swing.JFrame implements KeyListener {
 
     private final Principal principal;
     private int indi;
-
 
     private DefaultComboBoxModel modelCTipoB;
     private DefaultComboBoxModel modelCTipoC;
@@ -38,7 +35,7 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
 
         //Inicialización de variables
         this.principal = principal;
-        
+
         this.indi = indi;
         this.modelCTipoB = new DefaultComboBoxModel(new String[]{});
         this.modelCMarca = new DefaultComboBoxModel(new String[]{});
@@ -53,21 +50,36 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
         this.setLocationRelativeTo(null);
         //Llenar Comboboxes
         this.llenar();
+
+        if(indi == 2){
+          this.jTabbedPane1.setSelectedIndex(0);
+            this.jTabbedPane1.setEnabledAt(1, false);
+            this.jTabbedPane1.setEnabledAt(2, false);  
+        }
+        if (indi == 3) {
+            this.jTabbedPane1.setSelectedIndex(1);
+            this.jTabbedPane1.setEnabledAt(0, false);
+            this.jTabbedPane1.setEnabledAt(2, false);
+        }
         
-        
+        if (indi == 4){
+            this.jTabbedPane1.setSelectedIndex(2);
+            this.jTabbedPane1.setEnabledAt(0, false);
+            this.jTabbedPane1.setEnabledAt(1, false);
+        }
+
     }
 
     private void llenar() {
-        
+
         //Limpiar Combobox
-        
         this.cbMarca.removeAllItems();
         this.cbMarcaA.removeAllItems();
         this.cbMarcaC.removeAllItems();
         this.cbTipo.removeAllItems();
         this.cbTipoA.removeAllItems();
         this.cbTipoC.removeAllItems();
-        
+
         con.llenarcbTipoB(modelCTipoB);
         con.llenarcbMarca(modelCMarca);
         con.llenarcbMarcaC(modelCMarcaC);
@@ -96,8 +108,12 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
     }
 
     private void btnVolver() {
-        this.setVisible(false);
-        this.principal.setVisible(true);
+        if (indi >= 2) {
+            this.setVisible(false);
+        } else {
+            this.setVisible(false);
+            this.principal.setVisible(true);
+        }
     }
 
     public void limpiar() {
@@ -153,17 +169,17 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
                     + this.txtStock.getText() + ","
                     + marca + ","
                     + this.txtGarantia.getText();
-            try{
-            con.post("Bicicleta", datos);
-            System.out.println(datos);
-            } catch(Exception ex){
-                JOptionPane.showMessageDialog(null, "ERROR "+ex);
+            try {
+                con.post("Bicicleta", datos);
+                JOptionPane.showMessageDialog(null, "Datos agregados");
+                System.out.println(datos);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "ERROR " + ex);
             }
-            if(this.indi == 1){
-            this.irBiciComp(true);
-            }else if(this.indi ==2){
-                Compras compra = new Compras(principal);
-                compra.setVisible(true);
+            if (this.indi == 1) {
+                this.irBiciComp(true);
+            } else if (this.indi == 2) {
+                this.setVisible(false);
             }
 
         }
@@ -199,6 +215,8 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
                     + this.txtGarantiaA.getText();
 
             con.post("Accesorio", datos);
+            
+            JOptionPane.showMessageDialog(null, "Datos agregados");
             System.out.println(datos);
         }
     }
@@ -227,7 +245,11 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
                     + "'" + this.txtCarC.getText() + "'";
 
             con.post("Componente", datos);
+            JOptionPane.showMessageDialog(null, "Datos agregados");
             System.out.println(datos);
+            if (this.indi == 3) {
+                this.setVisible(false);
+            }
         }
 
     }
@@ -311,7 +333,7 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
             }
             String datos = "'" + nomb + "','" + desc + "'";
             con.post("Marca", datos);
-            
+
             this.llenar();
         }
     }

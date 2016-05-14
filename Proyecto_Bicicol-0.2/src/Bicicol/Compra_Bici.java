@@ -6,16 +6,16 @@
 package Bicicol;
 
 public class Compra_Bici {
-    
-   private int IdComBic;
+
+    private int IdComBic;
+    private int IdCompra;
+    private int RefBicicleta;
+    private int Cantidad;
 
     @Override
     public String toString() {
         return IdComBic + "," + IdCompra + "," + RefBicicleta + "," + Cantidad;
     }
-   private int IdCompra;
-   private int RefBicicleta;
-   private int Cantidad;
 
     public int getIdComBic() {
         return IdComBic;
@@ -55,5 +55,5 @@ public class Compra_Bici {
         this.RefBicicleta = RefBicicleta;
         this.Cantidad = Cantidad;
     }
-    
+
 }

@@ -153,7 +153,7 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
                 }
                 String datos = idComp + "," + idBici + "," + cant;
                 con.post("Bicicleta_Componente", datos);
-
+                
                 this.tabla1.setRowSelectionAllowed(false);
                 this.clearTable(tabla2, modeloTabla2);
                 this.llenarTabla2();
