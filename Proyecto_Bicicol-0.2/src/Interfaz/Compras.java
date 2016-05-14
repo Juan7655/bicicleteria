@@ -51,7 +51,7 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
     private int pk_CompraBici;
     private int pk_CompraComp;
     private int pk_CompraAcc;
-    private boolean ok = false;
+    
 
     private ArrayList<Compra_Bici> Bicicletas = new ArrayList<Compra_Bici>();
     private ArrayList<Compra_Comp> Componentes = new ArrayList<Compra_Comp>();
@@ -167,6 +167,7 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
                 con.postInto("Compra_Bicicleta", datos);
 
             }
+            Bicicletas.clear();
             System.out.println("Bicicletas insertadas");
         }
         if (!Componentes.isEmpty()) {
@@ -175,6 +176,7 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
                 String datos = comp.toString();
                 con.postInto("Compra_Componente", datos);
             }
+            Componentes.clear();
             System.out.println("Componentes insertados");
         }
         if (!Accesorios.isEmpty()) {
@@ -183,11 +185,13 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
                 String datos = acc.toString();
                 con.postInto("Compra_Accesorio", datos);
             }
+            Accesorios.clear();
             System.out.println("Accesorios insertados");
         }
 
         this.pk_compra = this.pk_compra + 1;
         JOptionPane.showMessageDialog(null, "Datos ingresados satisfactoriamente");
+        
     }
 
     private void llenarTablaBici(String busca) {
@@ -491,6 +495,13 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
         this.txtPrecioTotal.setText("" + valor);
         return valor;
     }
+    
+    public void limpiar(){
+        
+        this.clearTable(tbCarrito, modeloCarrito);
+        
+        
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -539,6 +550,7 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
         jLabel1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         txtPrecioTotal = new javax.swing.JLabel();
+        jButton9 = new javax.swing.JButton();
 
         jMenuItem1.setText("Eliminar");
         jMenuItem1.setActionCommand("");
@@ -775,6 +787,7 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
             }
         });
 
+        jButton4.setBackground(new java.awt.Color(153, 255, 153));
         jButton4.setText("Comprar");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -787,6 +800,13 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
         jLabel7.setText("$");
 
         txtPrecioTotal.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+
+        jButton9.setText("Limpiar");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -801,30 +821,29 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
                         .addComponent(cbProv, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel2)
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE))
-                        .addContainerGap())
+                    .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtPrecioTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton3)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtPrecioTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton3)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -843,16 +862,19 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel7)
-                            .addComponent(txtPrecioTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel1)
+                                .addComponent(jLabel7)
+                                .addComponent(txtPrecioTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton9)
+                                .addComponent(jButton3)))))
                 .addContainerGap())
         );
 
@@ -877,9 +899,7 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         this.setVisible(false);
         this.principal.setVisible(true);
-        if (this.ok == false) {
-            con.deleteFrom("Compra", "" + this.pk_compra, "IdCompra = " + this.pk_compra);
-        }
+       
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -957,14 +977,19 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
                         acc.setCantidad(cant);
                         System.out.println("Acc setted");
                     }
-                    this.precioTotal();
+                    
                 }
+                this.precioTotal();
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Ingreso inválido");
         }
 
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+limpiar();
+    }//GEN-LAST:event_jButton9ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -980,6 +1005,7 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
