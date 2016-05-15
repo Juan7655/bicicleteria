@@ -25,8 +25,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class DataBase {
 
-    private String DBName;
-
     public DataBase() {
 
     }
@@ -47,8 +45,6 @@ public class DataBase {
             Class.forName(driver);
             Connection conn = DriverManager.getConnection(url, username, password);
 
-            DBName = "Bicicol";
-
             System.out.println("Connected");
 
             return conn;
@@ -62,28 +58,7 @@ public class DataBase {
     public void post(String tabla, String datos) {
 
         try (Connection conn = getConnection()) {
-            PreparedStatement posted = conn.prepareStatement("USE " + DBName + ";");
-            posted.executeUpdate();
-
-            String valores = getPrimarykeyDisp(tabla) + "," + datos;
-            String query = "INSERT INTO " + tabla + " VALUE(" + valores + ");";
-
-            posted = conn.prepareStatement(query);
-            posted.executeUpdate();
-
-            System.out.println("Insert completed.");
-
-            conn.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    public void postInto(String tabla, String datos) {
-
-        try (Connection conn = getConnection()) {
-            PreparedStatement posted = conn.prepareStatement("USE " + DBName + ";");
+            PreparedStatement posted = conn.prepareStatement("USE Bicicol;");
             posted.executeUpdate();
 
             String query = "INSERT INTO " + tabla + " VALUE(" + datos + ");";
@@ -92,7 +67,7 @@ public class DataBase {
             posted.executeUpdate();
 
             System.out.println("Insert completed.");
-          
+
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -100,46 +75,10 @@ public class DataBase {
 
     }
 
-    public void delete(String tabla, String cId, int bId) {
-        try (Connection conn = getConnection()) {
-            PreparedStatement posted = conn.prepareStatement("USE " + DBName + ";");
-            posted.executeUpdate();
-
-            String sql = "SELECT column_name "
-                    + "FROM information_schema.columns "
-                    + "WHERE table_schema = 'Bicicol' AND table_name='" + tabla + "';";
-
-            PreparedStatement getNPk = conn.prepareStatement(sql);
-
-            ResultSet nomId = getNPk.executeQuery();
-
-            nomId.next();
-            nomId.next();
-
-            String idComp = nomId.getString(1);
-            nomId.next();
-
-            String idBici = nomId.getString(1);
-            System.out.println(idComp);
-            System.out.println(idBici);
-
-            String query = "DELETE FROM " + tabla + " WHERE " + idComp + " = " + cId + " AND " + idBici + " = " + bId + ";";
-
-            PreparedStatement deleted = conn.prepareStatement(query);
-            deleted.executeUpdate();
-
-            JOptionPane.showMessageDialog(null, "Eliminación exitosa");
-
-            conn.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void deleteFrom(String tabla, String Id, String condicion) {
+    public void delete(String tabla, String condicion) {
 
         try (Connection conn = getConnection()) {
-            PreparedStatement posted = conn.prepareStatement("USE " + DBName + ";");
+            PreparedStatement posted = conn.prepareStatement("USE  Bicicol;");
             posted.executeUpdate();
 
             String query = "DELETE FROM " + tabla + " WHERE " + condicion + ";";
@@ -157,7 +96,7 @@ public class DataBase {
 
         int pk = 1;
         try (Connection con = getConnection()) {
-            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
+            PreparedStatement posted = con.prepareStatement("USE  Bicicol;");
             posted.executeUpdate();
             String sql = "SELECT column_name "
                     + "FROM information_schema.columns "
@@ -193,12 +132,13 @@ public class DataBase {
         int pk = 1;
 
         try (Connection con = getConnection()) {
-            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
+
+            PreparedStatement posted = con.prepareStatement("USE Bicicol;");
             posted.executeUpdate();
 
             String sql = "SELECT column_name "
                     + "FROM information_schema.columns "
-                    + "WHERE table_schema = 'Bicicol' AND table_name='" + tabla + "';";
+                    + "WHERE table_schema = 'Bicicol' AND table_name='" + tabla + "' AND Column_key = 'PRI';";
 
             PreparedStatement getNPk = con.prepareStatement(sql);
             ResultSet nomId = getNPk.executeQuery();
@@ -225,16 +165,16 @@ public class DataBase {
         return pk;
     }
 
-    public int getPrimaryKey(String nTabla, String nTipo) {
+    public int getPrimaryKeyCB(String nTabla, String condicion) {
 
         int pk = 1;
 
         try (Connection con = getConnection()) {
-            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
+            PreparedStatement posted = con.prepareStatement("USE Bicicol;");
             posted.executeUpdate();
             String sql = "SELECT column_name "
                     + "FROM information_schema.columns "
-                    + "WHERE table_schema = 'Bicicol' AND table_name='" + nTabla + "';";
+                    + "WHERE table_schema = 'Bicicol' AND table_name='" + nTabla + "' AND Column_key = 'PRI';";
 
             PreparedStatement getNPk = con.prepareStatement(sql);
             ResultSet nomId = getNPk.executeQuery();
@@ -243,7 +183,7 @@ public class DataBase {
 
             String id = nomId.getString(1);
 
-            String sql2 = "SELECT " + id + " FROM " + nTabla + " WHERE Nombre = '" + nTipo + "';";
+            String sql2 = "SELECT " + id + " FROM " + nTabla + " " + condicion + ";";
 
             PreparedStatement getPk = con.prepareStatement(sql2);
             ResultSet get = getPk.executeQuery();
@@ -262,11 +202,19 @@ public class DataBase {
         return pk;
     }
 
+    public void set() {
+        try (Connection con = getConnection()) {
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBase.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void llenarTabla(String select, String tabla, int nCol, DefaultTableModel modelo, String condicion) {
 
         try (Connection con = getConnection()) {
 
-            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
+            PreparedStatement posted = con.prepareStatement("USE Bicicol;");
             posted.executeUpdate();
             String sql = "SELECT " + select + " FROM " + tabla + " " + condicion + ";";
 
@@ -290,19 +238,18 @@ public class DataBase {
         }
     }
 
-    public void llenarcbTipoB(DefaultComboBoxModel modelCTipoB) {
-
+    public void llenarCB(String select, String tabla, String condicion, DefaultComboBoxModel modelo) {
         try (Connection con = getConnection()) {
 
-            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
+            PreparedStatement posted = con.prepareStatement("USE Bicicol;");
             posted.executeUpdate();
-            String sql = "SELECT * FROM TipoBicicleta;";
+            String sql = "SELECT " + select + " FROM " + tabla + " " + condicion + ";";
 
             PreparedStatement verTipos = con.prepareStatement(sql);
             ResultSet ver = verTipos.executeQuery();
 
             while (ver.next()) {
-                modelCTipoB.addElement(ver.getString(2));
+                modelo.addElement(ver.getString(1));
             }
             con.close();
 
@@ -310,131 +257,6 @@ public class DataBase {
             Logger.getLogger(Agregar.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
-
-    }
-
-    public void llenarcbMarca(DefaultComboBoxModel modelCMarca) {
-
-        try (Connection con = getConnection()) {
-            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
-            posted.executeUpdate();
-            String sql = "SELECT * FROM Marca;";
-            PreparedStatement verMarca = con.prepareStatement(sql);
-            ResultSet ver = verMarca.executeQuery();
-
-            while (ver.next()) {
-                modelCMarca.addElement(ver.getString(2));
-            }
-            con.close();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Agregar.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    public void llenarcbMarcaC(DefaultComboBoxModel modelCMarcaC) {
-
-        try (Connection con = getConnection()) {
-            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
-            posted.executeUpdate();
-            String sql = "SELECT * FROM Marca;";
-            PreparedStatement verMarca = con.prepareStatement(sql);
-            ResultSet ver = verMarca.executeQuery();
-
-            while (ver.next()) {
-                modelCMarcaC.addElement(ver.getString(2));
-            }
-            con.close();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Agregar.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void llenarcbTipoC(DefaultComboBoxModel modelCTipoC) {
-
-        try (Connection con = getConnection()) {
-            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
-            posted.executeUpdate();
-            String sql = "SELECT * FROM TipoComponente;";
-            PreparedStatement verTipos = con.prepareStatement(sql);
-            ResultSet ver = verTipos.executeQuery();
-
-            while (ver.next()) {
-                modelCTipoC.addElement(ver.getString(2));
-            }
-            con.close();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Agregar.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void llenarcbTipoA(DefaultComboBoxModel modelCTipoA) {
-
-        try (Connection con = getConnection()) {
-            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
-            posted.executeUpdate();
-            String sql = "SELECT * FROM TipoAccesorio;";
-            PreparedStatement verTipos = con.prepareStatement(sql);
-            ResultSet ver = verTipos.executeQuery();
-
-            while (ver.next()) {
-                modelCTipoA.addElement(ver.getString(2));
-            }
-            con.close();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Agregar.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    public void llenarcbMarcaA(DefaultComboBoxModel modelCMarcaA) {
-
-        try (Connection con = getConnection()) {
-            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
-            posted.executeUpdate();
-            String sql = "SELECT * FROM Marca;";
-            PreparedStatement verMarca = con.prepareStatement(sql);
-            ResultSet ver = verMarca.executeQuery();
-
-            while (ver.next()) {
-                modelCMarcaA.addElement(ver.getString(2));
-            }
-            con.close();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Agregar.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    public void llenarcbProveedor(DefaultComboBoxModel modeloProv) {
-
-        try (Connection con = getConnection()) {
-            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
-            posted.executeUpdate();
-            String sql = "SELECT * FROM Proveedor;";
-            PreparedStatement verMarca = con.prepareStatement(sql);
-            ResultSet ver = verMarca.executeQuery();
-
-            while (ver.next()) {
-                modeloProv.addElement(ver.getString(2));
-            }
-            con.close();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Agregar.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 
     public void searchProv(String select, String tabla, String condicion) {
@@ -444,7 +266,7 @@ public class DataBase {
         String[] prov = new String[6];
         try (Connection con = getConnection()) {
 
-            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
+            PreparedStatement posted = con.prepareStatement("USE Bicicol;");
             posted.executeUpdate();
 
             String sql = "SELECT " + select + " FROM " + tabla + " " + condicion + ";";
@@ -468,8 +290,10 @@ public class DataBase {
                         + "Dirección:       " + prov[4] + "\n"
                         + "Email:              " + prov[5] + "\n";
                 JOptionPane.showMessageDialog(null, show, "Proveedor", 1);
+
             } catch (SQLException ex) {
-                Logger.getLogger(Compras.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Compras.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
             con.close();
 
@@ -485,7 +309,7 @@ public class DataBase {
         ArrayList<String> array = new ArrayList<String>();
         try (Connection con = getConnection()) {
 
-            PreparedStatement posted = con.prepareStatement("USE " + DBName + ";");
+            PreparedStatement posted = con.prepareStatement("USE Bicicol;");
             posted.executeUpdate();
 
             String sql = "SELECT " + select + " FROM " + tabla + " " + condicion + ";";
@@ -497,11 +321,13 @@ public class DataBase {
                 while (ver.next()) {
                     for (int j = 0; j < size; j++) {
                         array.add(ver.getString(j + 1));
+
                     }
                 }
 
             } catch (SQLException ex) {
-                Logger.getLogger(Compras.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Compras.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
             con.close();
 
@@ -510,5 +336,27 @@ public class DataBase {
                     .getName()).log(Level.SEVERE, null, ex);
         }
         return array;
+    }
+
+    public void update(String tabla, String set, String condicion) {
+        try (Connection con = getConnection()) {
+            PreparedStatement posted = con.prepareStatement("USE Bicicol;");
+            posted.executeUpdate();
+            
+            String sql = "UPDATE "+tabla+" "
+                    + "SET "+set+" "
+                    + "WHERE "+condicion;
+            
+            System.out.println(sql);
+            
+            PreparedStatement prep = con.prepareStatement(sql);
+            prep.executeUpdate();
+            
+            System.out.println("Updated");
+                    
+        } catch (SQLException ex) {
+            Logger.getLogger(Agregar.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

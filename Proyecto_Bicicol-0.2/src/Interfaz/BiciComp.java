@@ -6,6 +6,8 @@
 package Interfaz;
 
 import Bicicol.DataBase;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.Icon;
@@ -51,6 +53,7 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
         initComponents();
         ponerEscuchar();
         this.setLocationRelativeTo(null);
+        ponerImagen();
         llenarTabla1(columnas1);//Componentes
         llenarTabla2(); //Componentes en Bicicleta 
         llenarTabla1b(); //Bicicletas
@@ -148,16 +151,16 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
             int idBici = con.getLastPk("Bicicleta");
             try {
                 Integer cant = Integer.parseInt(JOptionPane.showInputDialog("Ingrese cantidad:"));
-                if (cant.toString().equals("")) {
-                    cant = 1;
+
+                int pk = con.getPrimarykeyDisp("Bicicleta_Componente");
+                String datos = pk + "," + idComp + "," + idBici + "," + cant;
+
+                if (this.verificar(modeloTabla2, idComp, idBici, "Bicicleta_componente", cant) == false) {
+                    con.post("Bicicleta_Componente", datos);
                 }
-                String datos = idComp + "," + idBici + "," + cant;
-                con.post("Bicicleta_Componente", datos);
-                
-                this.tabla1.setRowSelectionAllowed(false);
+
                 this.clearTable(tabla2, modeloTabla2);
                 this.llenarTabla2();
-                this.tabla1.changeSelection(-1, -1, true, false);
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Ingrese una cantidad válida");
@@ -184,9 +187,11 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
                 if (cant.toString().equals("")) {
                     cant = 1;
                 }
-                String datos = idComp + "," + idBici + "," + cant;
+                int pk = con.getPrimarykeyDisp("Bicicleta_Componente");
+                String datos = pk + "," + idComp + "," + idBici + "," + cant;
+                if(this.verificar(modeloTabla3b, idComp, idBici, "Bicicleta_Componente", cant)==false){
                 con.post("Bicicleta_Componente", datos);
-
+                }
                 this.clearTable(tabla3b, modeloTabla3b);
 
                 this.llenarTabla3b("" + idBici);
@@ -210,7 +215,8 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
 
             String cid = tabla2.getValueAt(index, 0).toString();
             int bid = con.getLastPk("Bicicleta");
-            con.delete("Bicicleta_Componente", cid, bid);
+            String cond = "RefComponente = " + cid + " AND RefBicicleta = " + bid;
+            con.delete("Bicicleta_Componente", cond);
 
             this.clearTable(tabla2, modeloTabla2);
             this.llenarTabla2();
@@ -229,13 +235,29 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
 
             String cid = tabla3b.getValueAt(index, 0).toString();
             String bid = tabla1b.getValueAt(index2, 0).toString();
-            con.delete("Bicicleta_Componente", cid, Integer.parseInt(bid));
+
+            String cond = "RefComponente = " + cid + " AND RefBicicleta = " + bid;
+            con.delete("Bicicleta_Componente", cond);
 
             this.clearTable(tabla3b, modeloTabla3b);
             this.llenarTabla3b(bid);
             this.tabla3b.changeSelection(this.tabla3b.getSelectedRow(), this.tabla3b.getSelectedColumn(), true, false);
 
         }
+    }
+
+    private boolean verificar(DefaultTableModel modelo, int idComp, int idBici, String tabla, int cantidad) {
+        boolean ok = false;
+        if (modelo.getRowCount() > 0) {
+            for (int i = 0; i < modelo.getRowCount(); i++) {
+                if (modelo.getValueAt(i, 0).equals(idComp)) {
+                    ok = true;
+                    con.update(tabla, "Cantidad = Cantidad +" + cantidad, "RefComponente = " + modelo.getValueAt(i, 0) + " AND RefBicicleta = " + idBici);
+                }
+            }
+        }
+        return ok;
+
     }
 
     private void ponerEscuchar() {
@@ -248,6 +270,15 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
         this.tabla3b.addMouseListener(this);
     }
 
+    private void ponerImagen() {
+
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        String ruta = "./_data/Bicicol.png";
+        Image imagen = tk.createImage(ruta);
+        logo.setIcon(new ImageIcon(imagen.getScaledInstance(logo.getWidth(), logo.getHeight(), Image.SCALE_AREA_AVERAGING)));
+
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
 
@@ -257,7 +288,7 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
                     + "Posteriormente pulse el botón 'Agregar componente', el componente \n"
                     + "se añadirá a la última bicicleta agregada");
         }
-        if(e.getSource() == this.aiudaa2){
+        if (e.getSource() == this.aiudaa2) {
             JOptionPane.showMessageDialog(null, "Seleccione de la tabla de la izquierda la bicicleta que usará,\n"
                     + "a continuación selecione el componente a agregar y posteriormente presione 'agregar componente' \n"
                     + "en la tabla de abajo se mostrará el componente agregado, más los que ya tenía la bicicleta.\n"
@@ -277,6 +308,7 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
     private void initComponents() {
 
         jInternalFrame1 = new javax.swing.JInternalFrame();
+        jPanel3 = new javax.swing.JPanel();
         tabbed = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -303,9 +335,10 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        aiudaa2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        aiudaa2 = new javax.swing.JLabel();
+        logo = new javax.swing.JLabel();
 
         jInternalFrame1.setVisible(true);
 
@@ -321,6 +354,8 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
         tabla1.setModel(modeloTabla1);
         jScrollPane1.setViewportView(tabla1);
@@ -441,6 +476,9 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
 
         jLabel8.setText("Componente en bicicleta");
 
+        aiudaa2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        aiudaa2.setText("(?)");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -456,16 +494,18 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(235, 235, 235)
+                        .addGap(196, 196, 196)
                         .addComponent(jButton3)
-                        .addGap(18, 18, 18)
+                        .addGap(43, 43, 43)
+                        .addComponent(aiudaa2)
+                        .addGap(37, 37, 37)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel6)
                         .addGap(361, 361, 361)
                         .addComponent(jLabel7)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(169, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -492,7 +532,8 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(jButton4)
+                    .addComponent(aiudaa2))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -502,7 +543,7 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
 
         tabbed.addTab("", jPanel2);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel1.setText("Bicicletas y Componentes");
 
         jButton1.setText("Volver");
@@ -512,41 +553,61 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
             }
         });
 
-        aiudaa2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        aiudaa2.setForeground(new java.awt.Color(0, 51, 255));
-        aiudaa2.setText("(?)");
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tabbed, javax.swing.GroupLayout.PREFERRED_SIZE, 769, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addGap(378, 378, 378)
+                    .addComponent(jButton1)
+                    .addGap(348, 348, 348))
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGap(108, 108, 108)
+                    .addComponent(jLabel1)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(12, 12, 12)))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(71, Short.MAX_VALUE)
+                .addComponent(tabbed, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(391, 391, 391))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addGap(414, 414, 414)))
+                    .addComponent(jButton1)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tabbed, javax.swing.GroupLayout.PREFERRED_SIZE, 769, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(358, 358, 358))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(132, 132, 132)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(aiudaa2)
-                .addGap(57, 57, 57))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(aiudaa2))
-                .addGap(8, 8, 8)
-                .addComponent(tabbed, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -593,11 +654,13 @@ public class BiciComp extends javax.swing.JFrame implements MouseListener {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JLabel logo;
     private javax.swing.JTabbedPane tabbed;
     private javax.swing.JTable tabla1;
     private javax.swing.JTable tabla1b;

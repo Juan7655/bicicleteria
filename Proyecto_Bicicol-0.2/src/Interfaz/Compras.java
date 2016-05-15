@@ -51,7 +51,6 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
     private int pk_CompraBici;
     private int pk_CompraComp;
     private int pk_CompraAcc;
-    
 
     private ArrayList<Compra_Bici> Bicicletas = new ArrayList<Compra_Bici>();
     private ArrayList<Compra_Comp> Componentes = new ArrayList<Compra_Comp>();
@@ -106,7 +105,7 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
         String datos = idCompra + "," + valor + ",'" + fechaAct + "'";
         System.out.println(datos);
 
-        con.postInto("Compra", datos);
+        con.post("Compra", datos);
         System.out.println("Compra insertada");
 
     }
@@ -122,7 +121,7 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
 
         String datos = IdComPro + "," + idCompra + "," + NitEmpresa + "," + valor;
 
-        con.postInto("Compra_Proveedor", datos);
+        con.post("Compra_Proveedor", datos);
         System.out.println("compra_proveedor insertada");
 
     }
@@ -137,7 +136,7 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
     }
 
     private void llenar() {
-        con.llenarcbProveedor(modeloProv);
+        con.llenarCB("NombreEmpresa", "Proveedor", "", modeloProv);
     }
 
     private void buscaProv() {
@@ -156,42 +155,49 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
         Compra_Comp comp;
         Compra_Acc acc;
 
-        this.generarCompraInit();
-        this.generarCompraProv();
+        if (this.tbCarrito.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "Seleccione los ítems que va a comprar");
+        } else {
+            this.generarCompraInit();
+            this.generarCompraProv();
 
-        if (!Bicicletas.isEmpty()) {
+            if (!Bicicletas.isEmpty()) {
 
-            for (int i = 0; i < Bicicletas.size(); i++) {
-                bici = this.Bicicletas.get(i);
-                String datos = bici.toString();
-                con.postInto("Compra_Bicicleta", datos);
+                for (int i = 0; i < Bicicletas.size(); i++) {
+                    bici = this.Bicicletas.get(i);
+                    String datos = bici.toString();
+                    con.post("Compra_Bicicleta", datos);
+                    con.update("Bicicleta", "UnidadesStock = UnidadesStock +" + bici.getCantidad(), "Referencia = " + bici.getRefBicicleta());
 
+                }
+                Bicicletas.clear();
+                System.out.println("Bicicletas insertadas");
             }
-            Bicicletas.clear();
-            System.out.println("Bicicletas insertadas");
-        }
-        if (!Componentes.isEmpty()) {
-            for (int i = 0; i < Componentes.size(); i++) {
-                comp = this.Componentes.get(i);
-                String datos = comp.toString();
-                con.postInto("Compra_Componente", datos);
+            if (!Componentes.isEmpty()) {
+                for (int i = 0; i < Componentes.size(); i++) {
+                    comp = this.Componentes.get(i);
+                    String datos = comp.toString();
+                    con.post("Compra_Componente", datos);
+                    con.update("Componente", "UnidadesStock = UnidadesStock +" + comp.getCantidad(), "Referencia = " + comp.getRefComponente());
+                }
+                Componentes.clear();
+                System.out.println("Componentes insertados");
             }
-            Componentes.clear();
-            System.out.println("Componentes insertados");
-        }
-        if (!Accesorios.isEmpty()) {
-            for (int i = 0; i < Accesorios.size(); i++) {
-                acc = this.Accesorios.get(i);
-                String datos = acc.toString();
-                con.postInto("Compra_Accesorio", datos);
+            if (!Accesorios.isEmpty()) {
+                for (int i = 0; i < Accesorios.size(); i++) {
+                    acc = this.Accesorios.get(i);
+                    String datos = acc.toString();
+                    con.post("Compra_Accesorio", datos);
+                    con.update("Accesorio", "UnidadesStock = UnidadesStock +" + acc.getCantidad(), "Referencia = " + acc.getRefAccesorio());
+                }
+                Accesorios.clear();
+                System.out.println("Accesorios insertados");
             }
-            Accesorios.clear();
-            System.out.println("Accesorios insertados");
-        }
 
-        this.pk_compra = this.pk_compra + 1;
-        JOptionPane.showMessageDialog(null, "Datos ingresados satisfactoriamente");
-        
+            this.pk_compra = this.pk_compra + 1;
+            JOptionPane.showMessageDialog(null, "Datos ingresados satisfactoriamente\n Presione limpiar para hacer otra compra");
+            this.jButton4.setEnabled(false);
+        }
     }
 
     private void llenarTablaBici(String busca) {
@@ -258,6 +264,7 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
         Compra_Bici bici;
         Compra_Comp comp;
         Compra_Acc acc;
+
         for (int i = 0; i < this.modeloCarrito.getRowCount(); i++) {
             if (this.modeloCarrito.getValueAt(i, 0).equals(Ref) && this.modeloCarrito.getValueAt(i, 1).equals(item)) {
 
@@ -495,12 +502,12 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
         this.txtPrecioTotal.setText("" + valor);
         return valor;
     }
-    
-    public void limpiar(){
-        
+
+    public void limpiar() {
+
         this.clearTable(tbCarrito, modeloCarrito);
-        
-        
+        this.jButton4.setEnabled(true);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -867,10 +874,10 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtPrecioTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel1)
-                                .addComponent(jLabel7)
-                                .addComponent(txtPrecioTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel7))
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton9)
@@ -899,7 +906,7 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         this.setVisible(false);
         this.principal.setVisible(true);
-       
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -977,7 +984,7 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
                         acc.setCantidad(cant);
                         System.out.println("Acc setted");
                     }
-                    
+
                 }
                 this.precioTotal();
             }
@@ -988,7 +995,7 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-limpiar();
+        limpiar();
     }//GEN-LAST:event_jButton9ActionPerformed
 
 

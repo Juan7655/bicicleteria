@@ -5,6 +5,8 @@
  */
 package Interfaz;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -16,6 +18,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class Agregar extends javax.swing.JFrame implements KeyListener {
@@ -48,21 +51,22 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
         initComponents();
         ponerEscuchar();
         this.setLocationRelativeTo(null);
+        ponerImagen();
         //Llenar Comboboxes
         this.llenar();
 
-        if(indi == 2){
-          this.jTabbedPane1.setSelectedIndex(0);
+        if (indi == 2) {
+            this.jTabbedPane1.setSelectedIndex(0);
             this.jTabbedPane1.setEnabledAt(1, false);
-            this.jTabbedPane1.setEnabledAt(2, false);  
+            this.jTabbedPane1.setEnabledAt(2, false);
         }
         if (indi == 3) {
             this.jTabbedPane1.setSelectedIndex(1);
             this.jTabbedPane1.setEnabledAt(0, false);
             this.jTabbedPane1.setEnabledAt(2, false);
         }
-        
-        if (indi == 4){
+
+        if (indi == 4) {
             this.jTabbedPane1.setSelectedIndex(2);
             this.jTabbedPane1.setEnabledAt(0, false);
             this.jTabbedPane1.setEnabledAt(1, false);
@@ -79,13 +83,23 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
         this.cbTipo.removeAllItems();
         this.cbTipoA.removeAllItems();
         this.cbTipoC.removeAllItems();
+//
+//        con.llenarcbTipoB(modelCTipoB);
+//        con.llenarcbMarca(modelCMarca);
+//        con.llenarcbMarcaC(modelCMarcaC);
+//        con.llenarcbTipoC(modelCTipoC);
+//        con.llenarcbTipoA(modelCTipoA);
+//        con.llenarcbMarcaA(modelCMarcaA);
 
-        con.llenarcbTipoB(modelCTipoB);
-        con.llenarcbMarca(modelCMarca);
-        con.llenarcbMarcaC(modelCMarcaC);
-        con.llenarcbTipoC(modelCTipoC);
-        con.llenarcbTipoA(modelCTipoA);
-        con.llenarcbMarcaA(modelCMarcaA);
+        String select = "Nombre";
+        String condicion = "";
+
+        con.llenarCB("Nombre", "TipoBicicleta", "", modelCTipoB);
+        con.llenarCB(select, "Marca", condicion, modelCMarca);
+        con.llenarCB(select, "Marca", condicion, modelCMarcaC);
+        con.llenarCB(select, "TipoComponente", condicion, modelCTipoC);
+        con.llenarCB(select, "TipoAccesorio", condicion, modelCTipoA);
+        con.llenarCB(select, "Marca", condicion, modelCMarcaA);
     }
 
     private void ponerEscuchar() {
@@ -160,9 +174,11 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
         } else {
 
             String datos;
-            int tipo = con.getPrimaryKey("TipoBicicleta", this.cbTipo.getSelectedItem().toString());
-            int marca = con.getPrimaryKey("Marca", this.cbMarca.getSelectedItem().toString());
-            datos = this.txtPrecio.getText() + ","
+            String cond = "WHERE Nombre = ";
+            int pk = con.getPrimarykeyDisp("Bicicleta");
+            int tipo = con.getPrimaryKeyCB("TipoBicicleta", cond + "'" + this.cbTipo.getSelectedItem().toString() + "'");
+            int marca = con.getPrimaryKeyCB("Marca", cond + "'" + this.cbMarca.getSelectedItem().toString() + "'");
+            datos = pk + "," + this.txtPrecio.getText() + ","
                     + tipo + ","
                     + "'" + this.cbTallaB.getSelectedItem().toString() + "'" + ","
                     + this.txtVendidas.getText() + ","
@@ -202,9 +218,11 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
                 carac = this.txtCaraA.getText();
             }
             String datos;
-            int tipo = con.getPrimaryKey("TipoAccesorio", this.cbTipoA.getSelectedItem().toString());
-            int marca = con.getPrimaryKey("Marca", this.cbMarcaA.getSelectedItem().toString());
-            datos = tipo + ","
+            String cond = "WHERE Nombre = ";
+            int pk = con.getPrimarykeyDisp("Accesorio");
+            int tipo = con.getPrimaryKeyCB("TipoAccesorio", cond + "'" + this.cbTipoA.getSelectedItem().toString() + "'");
+            int marca = con.getPrimaryKeyCB("Marca", cond + "'" + this.cbMarcaA.getSelectedItem().toString() + "'");
+            datos = pk + "," + tipo + ","
                     + this.txtPrecioA.getText() + ","
                     + this.txtVendidasA.getText() + ","
                     + this.txtStockA.getText() + ","
@@ -215,7 +233,7 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
                     + this.txtGarantiaA.getText();
 
             con.post("Accesorio", datos);
-            
+
             JOptionPane.showMessageDialog(null, "Datos agregados");
             System.out.println(datos);
         }
@@ -231,10 +249,12 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
             JOptionPane.showMessageDialog(null, "Precio Incorrecto");
         } else {
             String datos;
-            int tipo = con.getPrimaryKey("TipoComponente", this.cbTipoC.getSelectedItem().toString());
-            int marca = con.getPrimaryKey("Marca", this.cbMarcaC.getSelectedItem().toString());
+            String cond = "WHERE Nombre = ";
+            int pk = con.getPrimarykeyDisp("Componente");
+            int tipo = con.getPrimaryKeyCB("TipoComponente", cond + "'" + this.cbTipoC.getSelectedItem().toString() + "'");
+            int marca = con.getPrimaryKeyCB("Marca", cond + "'" + this.cbMarcaC.getSelectedItem().toString() + "'");
 
-            datos = marca + ","
+            datos = pk + "," + marca + ","
                     + "'" + this.cbMaterialC.getSelectedItem().toString() + "',"
                     + "'" + this.cbColorC.getSelectedItem().toString() + "',"
                     + this.txtStockC.getText() + ","
@@ -342,6 +362,15 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
         this.setVisible(false);
         BiciComp bcomp = new BiciComp(this, dist);
         bcomp.setVisible(true);
+    }
+
+    private void ponerImagen() {
+
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        String ruta = "./_data/Bicicol.png";
+        Image imagen = tk.createImage(ruta);
+        logo.setIcon(new ImageIcon(imagen.getScaledInstance(logo.getWidth(), logo.getHeight(), Image.SCALE_AREA_AVERAGING)));
+
     }
 
     @Override
@@ -524,6 +553,7 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
         cbMaterialA = new javax.swing.JComboBox<>();
         btnNewMatA = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        logo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Agregar");
@@ -1058,6 +1088,7 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
 
         jTabbedPane1.addTab("Accesorio", jPanel4);
 
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel1.setText("Agregar Registros");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -1065,28 +1096,37 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnVolver))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(242, 242, 242)
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnVolver)
+                                .addContainerGap())
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(28, 28, 28)
+                                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(33, 33, 33))))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(34, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(btnVolver)
                 .addContainerGap())
         );
@@ -1235,6 +1275,7 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel logo;
     private javax.swing.JButton nuevaMarcaA;
     private javax.swing.JButton nuevaMarcaB;
     private javax.swing.JButton nuevaMarcaC;
