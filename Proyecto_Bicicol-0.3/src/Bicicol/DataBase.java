@@ -39,7 +39,7 @@ public class DataBase {
             String url = "jdbc:mysql://127.0.0.1:3306/";
 
             //Esta opción es para la Base de datos en Google SQL Cloud
-            //String url = "jdbc:mysql://104.196.97.175:3306";
+            //String url = "jdbc:mysql://104.196.32.160:3306";
             String username = "root";
             //String password = "OZKR";
             String password = "OscarSQL4596";
