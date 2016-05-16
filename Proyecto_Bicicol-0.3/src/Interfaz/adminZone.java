@@ -9,6 +9,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,8 +20,6 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.axis.*;
 import org.jfree.data.xy.*;
 
-
-
 /**
  *
  * @author OscarLopez
@@ -27,12 +27,16 @@ import org.jfree.data.xy.*;
 public class adminZone extends javax.swing.JFrame {
 
     private Bicicol.DataBase con = new Bicicol.DataBase();
+
+    private final DefaultComboBoxModel modeloEmp;
+
     private DefaultTableModel modeloCliDes;
     private DefaultTableModel modeloVentasMes;
 
     public adminZone() {
         String[] columna = new String[]{"Nombre", "Dinero Gastado", "Tipo de Cliente"};
         String[] ventasM = new String[]{"Mes", "Venta Total"};
+        this.modeloEmp = new DefaultComboBoxModel(new String[]{});
         this.modeloCliDes = new DefaultTableModel(null, columna);
         this.modeloVentasMes = new DefaultTableModel(null, ventasM);
 
@@ -90,37 +94,40 @@ public class adminZone extends javax.swing.JFrame {
         select = "MONTH(Fecha) Mes, SUM(ValorTotal)";
         condicion = "GROUP BY Mes";
         con.llenarTabla(select, "Venta", 2, modeloVentasMes, condicion);
+        con.llenarCB("E.Nombre", "Venta", "INNER JOIN Empleado E ON E.Documento = Venta.Empleado "
+                + "INNER JOIN Cargo C ON E.Cargo = C.IdCargo "
+                + "GROUP BY Empleado", modeloEmp);
 
     }
-    
-    private void graficar(){
+
+    private void graficar() {
         ChartPanel panel;
         JFreeChart chart = null;
         int validar = 1;
         XYSplineRenderer renderer = new XYSplineRenderer();
         XYSeriesCollection dataset = new XYSeriesCollection();
-        
+
         ValueAxis x = new NumberAxis();
         ValueAxis y = new NumberAxis();
-        
+
         XYSeries serie = new XYSeries("Ventas");
-        
+
         XYPlot plot;
-        
+
         lineas.removeAll();
-        
-        try{
+
+        try {
             for (int fila = 0; fila < this.modeloVentasMes.getRowCount(); fila++) {
-            serie.add(Float.parseFloat(String.valueOf(this.modeloVentasMes.getValueAt(fila, 0))),
-                    Float.parseFloat(String.valueOf(modeloVentasMes.getValueAt(fila, 1))));
-            
+                serie.add(Float.parseFloat(String.valueOf(this.modeloVentasMes.getValueAt(fila, 0))),
+                        Float.parseFloat(String.valueOf(modeloVentasMes.getValueAt(fila, 1))));
+
             }
-        }catch (Exception es){
-            validar=0; 
+        } catch (Exception es) {
+            validar = 0;
         }
-        if(validar == 1){
+        if (validar == 1) {
             dataset.addSeries(serie);
-            
+
             x.setLabel("Mes");
             y.setLabel("Ventas");
             plot = new XYPlot(dataset, x, y, renderer);
@@ -129,10 +136,10 @@ public class adminZone extends javax.swing.JFrame {
         }
         panel = new ChartPanel(chart);
         panel.setBounds(5, 10, 229, 219);
-        
+
         lineas.add(panel);
         lineas.repaint();
-        
+
     }
 
     private void ponerImagen() {
@@ -166,6 +173,18 @@ public class adminZone extends javax.swing.JFrame {
         datos = new javax.swing.JTable();
         lineas = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        cbEmp = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        fotoEmp = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txtCargo = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txtCan = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txtTelefono = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        txtTotal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -197,7 +216,7 @@ public class adminZone extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 42, Short.MAX_VALUE))
+                .addGap(0, 51, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -260,7 +279,7 @@ public class adminZone extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lineas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -274,6 +293,110 @@ public class adminZone extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Ventas", jPanel2);
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        cbEmp.setModel(modeloEmp);
+        cbEmp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbEmpActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Mejores empleados");
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setText("Cargo:");
+
+        txtCargo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setText("Teléfono:");
+
+        txtCan.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel6.setText("Cant Ventas:");
+
+        txtTelefono.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel7.setText("Total Ventas:");
+
+        txtTotal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(199, 199, 199))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(cbEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel7))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtCan, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtCargo, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)))))
+                        .addComponent(fotoEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32))))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(jLabel3)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(cbEmp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txtCargo, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel6))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtCan, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel7)
+                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(24, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(fotoEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(39, 39, 39))))
+        );
+
+        jTabbedPane1.addTab("Empleados", jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -308,19 +431,47 @@ public class adminZone extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void cbEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEmpActionPerformed
+        ArrayList<String> arr = con.search(6, "E.Nombre, C.Nombre Cargo, E.Telefono, COUNT(Empleado), SUM(ValorTotal), E.Documento", "Venta", "INNER JOIN Empleado E ON E.Documento = Venta.Empleado "
+                + "INNER JOIN Cargo C ON E.Cargo = C.IdCargo "
+                + "GROUP BY Empleado HAVING E.Nombre =" + "'"+this.cbEmp.getSelectedItem().toString()+"'");
+        this.txtCargo.setText(arr.get(1));
+        this.txtTelefono.setText(arr.get(2));
+        this.txtCan.setText(arr.get(3));
+        this.txtTotal.setText(arr.get(4));
+        
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        String ruta = "./_data/"+arr.get(5)+".jpg";
+        Image imagen = tk.createImage(ruta);
+        fotoEmp.setIcon(new ImageIcon(imagen.getScaledInstance(fotoEmp.getWidth(), fotoEmp.getHeight(), Image.SCALE_AREA_AVERAGING)));
+
+    }//GEN-LAST:event_cbEmpActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbEmp;
     private javax.swing.JTable datos;
+    private javax.swing.JLabel fotoEmp;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel lineas;
     private javax.swing.JLabel logo;
     private javax.swing.JTable tablaCliDes;
+    private javax.swing.JLabel txtCan;
+    private javax.swing.JLabel txtCargo;
+    private javax.swing.JLabel txtTelefono;
+    private javax.swing.JLabel txtTotal;
     // End of variables declaration//GEN-END:variables
 }
