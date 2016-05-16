@@ -1,42 +1,45 @@
-
-
 package Interfaz;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 
 /**
  *
  * @author OscarLopez
- * 
+ *
  */
-public class Principal extends javax.swing.JFrame {
+public class Principal extends javax.swing.JFrame  {
 
     /**
      * Creates new form Principal
      */
-    
-     public static void main(String args[]) {
-     
-    new Principal();
-        
+    public static void main(String args[]) {
+
+        new Principal();
+
     }
-    
-     private void ponerImagen() {
-      
+
+    private void ponerImagen() {
+
         Toolkit tk = Toolkit.getDefaultToolkit();
         String ruta = "./_data/Bicicol.png";
         Image imagen = tk.createImage(ruta);
         logo.setIcon(new ImageIcon(imagen.getScaledInstance(logo.getWidth(), logo.getHeight(), Image.SCALE_AREA_AVERAGING)));
-        
+
     }
+
     public Principal() {
         initComponents();
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.ponerImagen();
-       
+        
+
     }
 
     /**
@@ -48,6 +51,8 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         logo = new javax.swing.JLabel();
         add = new javax.swing.JButton();
@@ -55,12 +60,23 @@ public class Principal extends javax.swing.JFrame {
         salir = new javax.swing.JButton();
         btnCompras = new javax.swing.JButton();
         btnVentas = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+
+        jMenuItem1.setText("query");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItem1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Principal");
         setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        logo.setComponentPopupMenu(jPopupMenu1);
 
         add.setText("Agregar Registros");
         add.addActionListener(new java.awt.event.ActionListener() {
@@ -97,6 +113,13 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Administración");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -117,7 +140,8 @@ public class Principal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(ver, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(add, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(add, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(66, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -133,7 +157,9 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(btnVentas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(ver)
-                .addGap(49, 49, 49)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addGap(15, 15, 15)
                 .addComponent(salir)
                 .addGap(23, 23, 23))
         );
@@ -153,27 +179,27 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
-        
+
         this.setVisible(false);
         Agregar add = new Agregar(this, 1);
         add.setVisible(true);
-        
+
     }//GEN-LAST:event_addActionPerformed
 
     private void verActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verActionPerformed
-        
+
         this.setVisible(false);
         Mostrar most = new Mostrar(this);
         most.setVisible(true);
-        
+
     }//GEN-LAST:event_verActionPerformed
 
     private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
-         System.exit(0);
+        System.exit(0);
     }//GEN-LAST:event_salirActionPerformed
 
     private void btnComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprasActionPerformed
-           
+
         this.setVisible(false);
         Compras comp = new Compras(this);
         comp.setVisible(true);
@@ -185,20 +211,45 @@ public class Principal extends javax.swing.JFrame {
         venta.setVisible(true);
     }//GEN-LAST:event_btnVentasActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JPasswordField pwd = new JPasswordField(10);
+        int action = JOptionPane.showConfirmDialog(null, pwd, "Ingrese Password", JOptionPane.OK_CANCEL_OPTION);
+        if(new String(pwd.getPassword()).matches("admin")){
+            this.setVisible(false);
+            adminZone admin = new adminZone();
+            admin.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Ingrese la contraseña de administrador para acceder");
+        }
+       
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        String sql = JOptionPane.showInputDialog("");
+        Bicicol.DataBase db = new Bicicol.DataBase();
+        db.execute(sql);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add;
     private javax.swing.JButton btnCompras;
     private javax.swing.JButton btnVentas;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JLabel logo;
     private javax.swing.JButton salir;
     private javax.swing.JButton ver;
     // End of variables declaration//GEN-END:variables
 
    
+
+  
+
 }

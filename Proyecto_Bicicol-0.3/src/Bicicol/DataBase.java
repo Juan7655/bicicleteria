@@ -414,4 +414,18 @@ public class DataBase {
         }
         return false;
     }
+
+    public void execute(String sql) {
+        try (Connection con = getConnection()) {
+
+            PreparedStatement posted = con.prepareStatement("USE Bicicol;");
+            posted.executeUpdate();
+            
+            PreparedStatement prep = con.prepareStatement(sql);
+            prep.executeUpdate();
+
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex);
+        }
+    }
 }

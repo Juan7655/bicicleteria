@@ -499,6 +499,7 @@ public class Ventas extends javax.swing.JFrame implements MouseListener, KeyList
     }
 
     public void keyTyped(KeyEvent e) {
+        
         char c = e.getKeyChar();
 
         if (e.getSource() == this.BuscaBici) {
