@@ -180,9 +180,9 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnComprasActionPerformed
 
     private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
-//        this.setVisible(false);
-//        Ventas venta = new Ventas(this);
-//        venta.setVisible(true);
+        this.setVisible(false);
+        Ventas venta = new Ventas(this);
+        venta.setVisible(true);
     }//GEN-LAST:event_btnVentasActionPerformed
 
     /**

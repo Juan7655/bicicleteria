@@ -41,6 +41,7 @@ public class DataBase {
             //Esta opción es para la Base de datos en Google SQL Cloud
             //String url = "jdbc:mysql://104.196.97.175:3306";
             String username = "root";
+            //String password = "OZKR";
             String password = "OscarSQL4596";
             Class.forName(driver);
             Connection conn = DriverManager.getConnection(url, username, password);
@@ -85,7 +86,7 @@ public class DataBase {
 
             PreparedStatement deleted = conn.prepareStatement(query);
             deleted.executeUpdate();
-
+            System.out.println("Deleted");
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -170,6 +171,7 @@ public class DataBase {
         int pk = 1;
 
         try (Connection con = getConnection()) {
+
             PreparedStatement posted = con.prepareStatement("USE Bicicol;");
             posted.executeUpdate();
             String sql = "SELECT column_name "
@@ -342,21 +344,40 @@ public class DataBase {
         try (Connection con = getConnection()) {
             PreparedStatement posted = con.prepareStatement("USE Bicicol;");
             posted.executeUpdate();
-            
-            String sql = "UPDATE "+tabla+" "
-                    + "SET "+set+" "
-                    + "WHERE "+condicion;
-            
+
+            String sql = "UPDATE " + tabla + " "
+                    + "SET " + set + " "
+                    + "WHERE " + condicion;
+
             System.out.println(sql);
-            
+
             PreparedStatement prep = con.prepareStatement(sql);
             prep.executeUpdate();
-            
+
             System.out.println("Updated");
-                    
+
         } catch (SQLException ex) {
             Logger.getLogger(Agregar.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public boolean existe(String atributo, String tabla, String valor) {
+        try (Connection con = getConnection()) {
+            ResultSet result;
+            getConnection();
+            PreparedStatement posted = con.prepareStatement("USE Bicicol;");
+            posted.executeUpdate();
+            posted = con.prepareStatement("SELECT " + atributo + " FROM " + tabla
+                    + " WHERE " + atributo + " = " + valor + ";");
+            result = posted.executeQuery();
+            boolean exist = result.next();
+            System.out.println("" + exist + " " + result.getString(1));
+            return exist;
+
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex);
+        }
+        return false;
     }
 }

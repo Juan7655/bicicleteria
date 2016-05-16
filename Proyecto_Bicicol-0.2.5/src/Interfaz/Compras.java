@@ -594,6 +594,7 @@ public class Compras extends javax.swing.JFrame implements MouseListener, KeyLis
         jPopupMenu3.add(jMenuItem3);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Compras");
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 

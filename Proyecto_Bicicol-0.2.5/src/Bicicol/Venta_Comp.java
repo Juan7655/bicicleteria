@@ -7,41 +7,25 @@ package Bicicol;
 
 /**
  *
- * @author OscarLopez
+ * @author Natalia
  */
 public class Venta_Comp {
+    int IdVenComp;
+    int IdVenta;
+    int RefComponente;
+    int Cantidad;
 
-    private int IdVenCom;
-    private int RefComponente;
-    private int IdVenta;
-
-    public Venta_Comp(int IdVenCom, int RefComponente, int IdVenta, int Cantidad) {
-        this.IdVenCom = IdVenCom;
-        this.RefComponente = RefComponente;
-        this.IdVenta = IdVenta;
-        this.Cantidad = Cantidad;
-    }
-
-      @Override
+    @Override
     public String toString() {
-        return IdVenCom + "," + RefComponente + "," + IdVenta + "," + Cantidad;
+        return IdVenComp + "," + IdVenta + "," + RefComponente + "," + Cantidad;
     }
 
-    
-    public int getIdVenCom() {
-        return IdVenCom;
+    public int getIdVenComp() {
+        return IdVenComp;
     }
 
-    public void setIdVenCom(int IdVenCom) {
-        this.IdVenCom = IdVenCom;
-    }
-
-    public int getRefComponente() {
-        return RefComponente;
-    }
-
-    public void setRefComponente(int RefComponente) {
-        this.RefComponente = RefComponente;
+    public void setIdVenComp(int IdVenComp) {
+        this.IdVenComp = IdVenComp;
     }
 
     public int getIdVenta() {
@@ -52,6 +36,14 @@ public class Venta_Comp {
         this.IdVenta = IdVenta;
     }
 
+    public int getRefComponente() {
+        return RefComponente;
+    }
+
+    public void setRefComponente(int RefComponente) {
+        this.RefComponente = RefComponente;
+    }
+
     public int getCantidad() {
         return Cantidad;
     }
@@ -59,6 +51,12 @@ public class Venta_Comp {
     public void setCantidad(int Cantidad) {
         this.Cantidad = Cantidad;
     }
-    private int Cantidad;
 
+    public Venta_Comp(int IdVenComp, int IdVenta, int RefComponente, int Cantidad) {
+        this.IdVenComp = IdVenComp;
+        this.IdVenta = IdVenta;
+        this.RefComponente = RefComponente;
+        this.Cantidad = Cantidad;
+    }
+    
 }

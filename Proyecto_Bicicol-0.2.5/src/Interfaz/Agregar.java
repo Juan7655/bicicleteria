@@ -74,6 +74,8 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
 
     }
 
+    
+
     private void llenar() {
 
         //Limpiar Combobox
@@ -274,28 +276,28 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
 
     }
 
-    private void btnNewColorA() {
+    public void btnNewColorA() {
 
         String nColor = JOptionPane.showInputDialog("Ingrese el nuevo color");
         this.cbColorA.addItem(nColor);
     }
 
-    private void btnNewMaterialA() {
+    public void btnNewMaterialA() {
         String nColor = JOptionPane.showInputDialog("Ingrese el nuevo material");
         this.cbMaterialA.addItem(nColor);
     }
 
-    private void btnNewMaterialC() {
+    public void btnNewMaterialC() {
         String nColor = JOptionPane.showInputDialog("Ingrese el nuevo material");
         this.cbMaterialC.addItem(nColor);
     }
 
-    private void btnNewColorC() {
+    public void btnNewColorC() {
         String nColor = JOptionPane.showInputDialog("Ingrese el nuevo color");
         this.cbColorC.addItem(nColor);
     }
 
-    private void btnNewTipoB() {
+   public void btnNewTipoB() {
 
         String nomb = JOptionPane.showInputDialog("Ingrese nombre del tipo de bicicleta:");
         String desc = JOptionPane.showInputDialog("Ingrese descripción del tipo de bicicleta");
@@ -311,7 +313,7 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
         }
     }
 
-    private void btnNewTipoC() {
+    public void btnNewTipoC() {
         String nomb = JOptionPane.showInputDialog("Ingrese nombre del tipo de componente:");
         String desc = JOptionPane.showInputDialog("Ingrese descripción del tipo de componente");
         if (nomb.equals("")) {
@@ -326,7 +328,7 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
         }
     }
 
-    private void btnNewTipoA() {
+    public void btnNewTipoA() {
         String nomb = JOptionPane.showInputDialog("Ingrese nombre del tipo de accesorio:");
         String desc = JOptionPane.showInputDialog("Ingrese descripción del tipo de accesorio");
         if (nomb.equals("")) {
@@ -341,7 +343,7 @@ public class Agregar extends javax.swing.JFrame implements KeyListener {
         }
     }
 
-    private void btnNewMarca() {
+    public void btnNewMarca() {
 
         String nomb = JOptionPane.showInputDialog("Ingrese nombre de la marca:");
         String desc = JOptionPane.showInputDialog("Ingrese descripción de la marca");

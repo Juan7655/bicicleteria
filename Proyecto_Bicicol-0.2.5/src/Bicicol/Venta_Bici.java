@@ -7,42 +7,42 @@ package Bicicol;
 
 /**
  *
- * @author OscarLopez
+ * @author Natalia
  */
 public class Venta_Bici {
 
-    private int IdVenBi;
-    private int RefBici;
+    private int IdVenBic;
     private int IdVenta;
+    private int RefBicicleta;
     private int Cantidad;
 
     @Override
     public String toString() {
-        return IdVenBi + "," + RefBici + "," + IdVenta + "," + Cantidad;
+        return IdVenBic + "," + IdVenta + "," + RefBicicleta + "," + Cantidad;
     }
 
-    public int getIdVenBi() {
-        return IdVenBi;
+    public int getIdComBic() {
+        return IdVenBic;
     }
 
-    public void setIdVenBi(int IdVenBi) {
-        this.IdVenBi = IdVenBi;
+    public void setIdComBic(int IdComBic) {
+        this.IdVenBic = IdComBic;
     }
 
-    public int getRefBici() {
-        return RefBici;
-    }
-
-    public void setRefBici(int RefBici) {
-        this.RefBici = RefBici;
-    }
-
-    public int getIdVenta() {
+    public int getIdCompra() {
         return IdVenta;
     }
 
-    public void setIdVenta(int IdVenta) {
-        this.IdVenta = IdVenta;
+    public void setIdCompra(int IdCompra) {
+        this.IdVenta = IdCompra;
+    }
+
+    public int getRefBicicleta() {
+        return RefBicicleta;
+    }
+
+    public void setRefBicicleta(int RefBicicleta) {
+        this.RefBicicleta = RefBicicleta;
     }
 
     public int getCantidad() {
@@ -53,10 +53,10 @@ public class Venta_Bici {
         this.Cantidad = Cantidad;
     }
 
-    public Venta_Bici(int IdVenBi, int RefBici, int IdVenta, int Cantidad) {
-        this.IdVenBi = IdVenBi;
-        this.RefBici = RefBici;
+    public Venta_Bici(int IdVenBic, int IdVenta, int RefBicicleta, int Cantidad) {
+        this.IdVenBic = IdVenBic;
         this.IdVenta = IdVenta;
+        this.RefBicicleta = RefBicicleta;
         this.Cantidad = Cantidad;
     }
 
